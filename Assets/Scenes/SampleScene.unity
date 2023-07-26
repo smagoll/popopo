@@ -1056,6 +1056,14 @@ PrefabInstance:
       value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 1855827967259953734, guid: 4bdc72d0f874ad94397bb8c2966dce91, type: 3}
+      propertyPath: attackRange
+      value: 0.43
+      objectReference: {fileID: 0}
+    - target: {fileID: 1855827967259953734, guid: 4bdc72d0f874ad94397bb8c2966dce91, type: 3}
+      propertyPath: enemy.m_Bits
+      value: 128
+      objectReference: {fileID: 0}
+    - target: {fileID: 1855827967259953734, guid: 4bdc72d0f874ad94397bb8c2966dce91, type: 3}
       propertyPath: timeStartAttack
       value: 0.5
       objectReference: {fileID: 0}

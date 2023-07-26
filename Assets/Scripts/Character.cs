@@ -11,6 +11,14 @@ public class Character : MonoBehaviour
     [SerializeField]
     private float timeStartAttack;
 
+    private GameObject attackObject;// объет позиции атаки
+    private float attackPosX = 1f;// смещение атаки по оси X относительно персонажа
+
+    [SerializeField]
+    private float attackRange;
+    [SerializeField]
+    private LayerMask enemy;
+
     private bool isGrounded = true;
 
     private Rigidbody2D rb;
@@ -26,6 +34,9 @@ public class Character : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        //attackPos.position = gameObject.transform.position + new Vector3(attackPosX, 0, 0);
+        attackObject = new GameObject();
+        attackObject.transform.position = gameObject.transform.position + new Vector3(attackPosX, 0, 0);
     }
 
     private void Update()
@@ -68,13 +79,20 @@ public class Character : MonoBehaviour
 
 
 
-    public void Attack(bool input)
+    public void Attack(bool input)// атака
     {
         if (timeCurrentAttack <= 0)
         {
             if (input)
             {
                 animator.SetTrigger("Attack");
+
+                Collider2D[] enemies = Physics2D.OverlapCircleAll(attackObject.transform.position, attackRange, enemy);
+                foreach (var enemy in enemies)
+                {
+                    Debug.Log(enemy.name + "take damage");
+                }
+
                 timeCurrentAttack = timeStartAttack;
             }
         }
@@ -90,4 +108,9 @@ public class Character : MonoBehaviour
             isGrounded = true;
     }
 
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(attackObject.transform.position, attackRange);
+    }
 }
