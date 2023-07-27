@@ -27,6 +27,7 @@ public class Character : MonoBehaviour
     [SerializeField]
     private float speedJump;
     private bool flipRight = true;
+    private bool isRunning = false;
 
     [SerializeField] 
     private Animator animator;
@@ -35,7 +36,7 @@ public class Character : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         //attackPos.position = gameObject.transform.position + new Vector3(attackPosX, 0, 0);
-        attackObject = new GameObject();
+        attackObject = Instantiate(new GameObject(), gameObject.transform);
         attackObject.transform.position = gameObject.transform.position + new Vector3(attackPosX, 0, 0);
     }
 
@@ -58,6 +59,17 @@ public class Character : MonoBehaviour
         {
             Flip();
         }
+
+        if (axisValue == 0)
+        {
+            isRunning = false;
+        }
+        else
+        {
+            isRunning = true;
+        }
+        
+        animator.SetBool("isRunning", isRunning);
     }
 
     private void Flip() // поворот персонажа
@@ -77,7 +89,14 @@ public class Character : MonoBehaviour
         }
     }
 
-
+    public void OnAttack()//
+    {
+        Collider2D[] enemies = Physics2D.OverlapCircleAll(attackObject.transform.position, attackRange, enemy);
+        foreach (var enemy in enemies)
+        {
+            Debug.Log(enemy.name + "take damage");
+        }
+    }
 
     public void Attack(bool input)// атака
     {
@@ -86,14 +105,8 @@ public class Character : MonoBehaviour
             if (input)
             {
                 animator.SetTrigger("Attack");
-
-                Collider2D[] enemies = Physics2D.OverlapCircleAll(attackObject.transform.position, attackRange, enemy);
-                foreach (var enemy in enemies)
-                {
-                    Debug.Log(enemy.name + "take damage");
-                }
-
                 timeCurrentAttack = timeStartAttack;
+                Debug.Log("animation attack");
             }
         }
         else
@@ -108,9 +121,9 @@ public class Character : MonoBehaviour
             isGrounded = true;
     }
 
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(attackObject.transform.position, attackRange);
-    }
+    //private void OnDrawGizmosSelected()
+    //{
+    //    Gizmos.color = Color.red;
+    //    Gizmos.DrawWireSphere(attackObject.transform.position, attackRange);
+    //}
 }
