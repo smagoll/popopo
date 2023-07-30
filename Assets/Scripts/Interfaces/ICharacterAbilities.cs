@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-interface IAbilities
+interface ICharacterAbilities
 {
     public void FirstMainAbility();
     public void SecondMainAbility();

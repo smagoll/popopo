@@ -21,5 +21,9 @@ public class PlayerController : MonoBehaviour
 
         character.Attack(Input.GetKey(KeyCode.H));
 
+        if (Input.GetKey(KeyCode.J))
+        {
+            character.FirstMainAbility();
+        }
     }
 }
