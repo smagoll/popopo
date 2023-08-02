@@ -1,14 +1,24 @@
 using System;
 using UnityEngine;
 
-public class Character : MonoBehaviour, ICharacterAbilities
+public class Character : MonoBehaviour, IAbilities
 {
+    private void Start()
+    {
+        SetCharacteristics();
+        rb = GetComponent<Rigidbody2D>();
+        attackObject = Instantiate(new GameObject(), gameObject.transform);
+        attackObject.transform.position = gameObject.transform.position + new Vector3(attackPosX, 0, 0);
+    }
+
+    #region Characteristics
+
     [SerializeField]
-    public float maxHp;
+    private float maxHp;
     [SerializeField]
-    public float maxMana;
+    private float maxMana;
     [SerializeField]
-    public float damage;
+    private float damage;
 
     private float hp;
     private float mana;
@@ -48,6 +58,15 @@ public class Character : MonoBehaviour, ICharacterAbilities
         }
     }
 
+    public void SetCharacteristics()
+    {
+        Hp = maxHp;
+        Mana = maxMana;
+    }
+
+    #endregion
+
+    #region Physics
     private float timeCurrentAttack = 0f;
     [SerializeField]
     private float timeStartAttack;
@@ -70,18 +89,8 @@ public class Character : MonoBehaviour, ICharacterAbilities
     private bool flipRight = true;
     private bool isRunning = false;
 
-    [SerializeField] 
+    [SerializeField]
     private Animator animator;
-
-    private void Start()
-    {
-        Hp = maxHp;
-        Mana = maxMana;
-
-        rb = GetComponent<Rigidbody2D>();
-        attackObject = Instantiate(new GameObject(), gameObject.transform);
-        attackObject.transform.position = gameObject.transform.position + new Vector3(attackPosX, 0, 0);
-    }
 
     public void Move(float axisValue)//движение персонажа
     {
@@ -104,7 +113,7 @@ public class Character : MonoBehaviour, ICharacterAbilities
         {
             isRunning = true;
         }
-        
+
         animator.SetBool("isRunning", isRunning);
     }
 
@@ -157,21 +166,6 @@ public class Character : MonoBehaviour, ICharacterAbilities
             isGrounded = true;
     }
 
-    public virtual void FirstMainAbility()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public virtual void SecondMainAbility()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public virtual void Ultimate()
-    {
-        throw new System.NotImplementedException();
-    }
-
     private void Death() // смерть персонажа
     {
         Debug.Log(gameObject.name + " dead)");
@@ -180,5 +174,23 @@ public class Character : MonoBehaviour, ICharacterAbilities
     public void TakeDamage(float damage) // получение урона
     {
         Hp -= damage;
+    }
+
+
+    #endregion
+
+    public virtual void FirstAbility()
+    {
+        throw new NotImplementedException();
+    }
+
+    public virtual void SecondAbility()
+    {
+        throw new NotImplementedException();
+    }
+
+    public virtual void Ultimate()
+    {
+        throw new NotImplementedException();
     }
 }

@@ -168,8 +168,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 530cdf3bcb903c4408aacca9c923d03f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 100
-  mana: 50
+  maxHp: 100
+  maxMana: 50
   damage: 10
   timeStartAttack: 0.5
   attackRange: 0.2
@@ -178,7 +178,7 @@ MonoBehaviour:
     m_Bits: 128
   speedMove: 10
   speedJump: 50
-  animator: {fileID: 0}
+  animator: {fileID: 1855827967259953733}
 --- !u!114 &3962048826991033502
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKey(KeyCode.J))
         {
-            character.FirstMainAbility();
+            character.FirstAbility();
         }
     }
 }

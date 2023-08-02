@@ -57,13 +57,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\PlayerController.cs" />
-    <Compile Include="Assets\Scripts\Interfaces\IAbility.cs" />
-    <Compile Include="Assets\Scripts\Abilities\CrowCloud.cs" />
+    <Compile Include="Assets\Scripts\Ability.cs" />
+    <Compile Include="Assets\Scripts\Heroes\Toad.cs" />
+    <Compile Include="Assets\Scripts\Abilities\CrowAbilities\CrowCloud.cs" />
     <Compile Include="Assets\Scripts\Heroes\Crow.cs" />
     <Compile Include="Assets\Scripts\Character.cs" />
     <Compile Include="Assets\Scripts\MainCamera.cs" />
-    <Compile Include="Assets\Scripts\Interfaces\ICharacterAbilities.cs" />
-    <Compile Include="Assets\Scripts\Heroes\Toad.cs" />
+    <Compile Include="Assets\Scripts\Interfaces\IAbilities.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

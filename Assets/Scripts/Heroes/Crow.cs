@@ -3,22 +3,10 @@ using UnityEngine;
 
 public class Crow : Character
 {
-    public override void FirstMainAbility()
+    public override void FirstAbility()
     {
-        if(Mana > 30)
-        {
-            Mana -= 30;
-            Debug.Log("first");
-        }
+        var ability = new CrowCloud(this);
+        ability.Start();
     }
 
-    public override void SecondMainAbility()
-    {
-        throw new NotImplementedException();
-    }
-
-    public override void Ultimate()
-    {
-        throw new NotImplementedException();
-    }
 }
