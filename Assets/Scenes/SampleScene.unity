@@ -198,6 +198,7 @@ GameObject:
   - component: {fileID: 209486966}
   - component: {fileID: 209486965}
   - component: {fileID: 209486967}
+  - component: {fileID: 209486968}
   m_Layer: 7
   m_Name: toad
   m_TagString: hero
@@ -339,6 +340,29 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &209486968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 209486962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e466a9b2a7fce94459c68ba3a64db4d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHp: 100
+  maxMana: 50
+  damage: 10
+  timeStartAttack: 0.5
+  attackRange: 0.2
+  enemy:
+    serializedVersion: 2
+    m_Bits: 64
+  speedMove: 10
+  speedJump: 50
+  animator: {fileID: 209486967}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -458,23 +482,11 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
---- !u!1 &707816666 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1855827967259953730, guid: 4bdc72d0f874ad94397bb8c2966dce91, type: 3}
+--- !u!95 &707816677 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 1855827967259953733, guid: 4bdc72d0f874ad94397bb8c2966dce91, type: 3}
   m_PrefabInstance: {fileID: 1855827966893991576}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &707816673
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 707816666}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 356e6b48b6146c343a458e0764b1b703, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &789797551
 GameObject:
   m_ObjectHideFlags: 0
@@ -542,7 +554,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &789797554
@@ -653,7 +665,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1319357786
@@ -868,7 +880,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1917520829
@@ -1064,34 +1076,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1855827967259953734, guid: 4bdc72d0f874ad94397bb8c2966dce91, type: 3}
-      propertyPath: hp
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 1855827967259953734, guid: 4bdc72d0f874ad94397bb8c2966dce91, type: 3}
-      propertyPath: damage
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 1855827967259953734, guid: 4bdc72d0f874ad94397bb8c2966dce91, type: 3}
-      propertyPath: speedJump
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 1855827967259953734, guid: 4bdc72d0f874ad94397bb8c2966dce91, type: 3}
-      propertyPath: speedMove
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 1855827967259953734, guid: 4bdc72d0f874ad94397bb8c2966dce91, type: 3}
-      propertyPath: attackRange
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1855827967259953734, guid: 4bdc72d0f874ad94397bb8c2966dce91, type: 3}
-      propertyPath: enemy.m_Bits
-      value: 128
-      objectReference: {fileID: 0}
-    - target: {fileID: 1855827967259953734, guid: 4bdc72d0f874ad94397bb8c2966dce91, type: 3}
-      propertyPath: timeStartAttack
-      value: 0.5
-      objectReference: {fileID: 0}
     - target: {fileID: 1855827967259953735, guid: 4bdc72d0f874ad94397bb8c2966dce91, type: 3}
       propertyPath: m_Mass
       value: 1
@@ -1108,6 +1092,18 @@ PrefabInstance:
       propertyPath: m_GravityScale
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 3043164546658405356, guid: 4bdc72d0f874ad94397bb8c2966dce91, type: 3}
+      propertyPath: maxHp
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3043164546658405356, guid: 4bdc72d0f874ad94397bb8c2966dce91, type: 3}
+      propertyPath: maxMana
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 3043164546658405356, guid: 4bdc72d0f874ad94397bb8c2966dce91, type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 707816677}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 4bdc72d0f874ad94397bb8c2966dce91, type: 3}

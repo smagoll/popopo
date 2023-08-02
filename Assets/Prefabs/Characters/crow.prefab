@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: 1855827967259953733}
   - component: {fileID: 1855827967259953784}
   - component: {fileID: 1855827967259953735}
-  - component: {fileID: 1855827967259953734}
+  - component: {fileID: 3043164546658405356}
+  - component: {fileID: 3962048826991033502}
   m_Layer: 0
   m_Name: crow
   m_TagString: Untagged
@@ -34,7 +35,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1855827967259953731
 SpriteRenderer:
@@ -155,7 +156,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &1855827967259953734
+--- !u!114 &3043164546658405356
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -164,7 +165,29 @@ MonoBehaviour:
   m_GameObject: {fileID: 1855827967259953730}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0fbe14c151355b4198bdca06861c339, type: 3}
+  m_Script: {fileID: 11500000, guid: 530cdf3bcb903c4408aacca9c923d03f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHp: 100
+  maxMana: 50
+  damage: 10
+  timeStartAttack: 0.5
+  attackRange: 0.2
+  enemy:
+    serializedVersion: 2
+    m_Bits: 128
+  speedMove: 10
+  speedJump: 50
   animator: {fileID: 1855827967259953733}
+--- !u!114 &3962048826991033502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1855827967259953730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 356e6b48b6146c343a458e0764b1b703, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

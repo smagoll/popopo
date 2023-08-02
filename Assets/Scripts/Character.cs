@@ -1,12 +1,72 @@
+using System;
 using UnityEngine;
 
-public class Character : MonoBehaviour
+public class Character : MonoBehaviour, IAbilities
 {
+    private void Start()
+    {
+        SetCharacteristics();
+        rb = GetComponent<Rigidbody2D>();
+        attackObject = Instantiate(new GameObject(), gameObject.transform);
+        attackObject.transform.position = gameObject.transform.position + new Vector3(attackPosX, 0, 0);
+    }
+
+    #region Characteristics
+
     [SerializeField]
-    private float hp;
+    private float maxHp;
+    [SerializeField]
+    private float maxMana;
     [SerializeField]
     private float damage;
 
+    private float hp;
+    private float mana;
+
+    public float Hp
+    {
+        set
+        {
+            hp = value;
+            if (hp <= 0)
+            {
+                Death();
+            }
+        }
+        get
+        {
+            return hp;
+        }
+    }
+    
+    public float Mana
+    {
+        set
+        {
+            if (mana + value > maxMana)
+            {
+                mana = maxMana;
+            }
+            else
+            {
+                mana = value;
+            }
+        }
+        get
+        {
+            return mana;
+        }
+    }
+
+    public void SetCharacteristics()
+    {
+        Hp = maxHp;
+        Mana = maxMana;
+    }
+
+    #endregion
+
+    #region Physics
     private float timeCurrentAttack = 0f;
     [SerializeField]
     private float timeStartAttack;
@@ -29,27 +89,12 @@ public class Character : MonoBehaviour
     private bool flipRight = true;
     private bool isRunning = false;
 
-    [SerializeField] 
+    [SerializeField]
     private Animator animator;
-
-    private void Start()
-    {
-        rb = GetComponent<Rigidbody2D>();
-        //attackPos.position = gameObject.transform.position + new Vector3(attackPosX, 0, 0);
-        attackObject = Instantiate(new GameObject(), gameObject.transform);
-        attackObject.transform.position = gameObject.transform.position + new Vector3(attackPosX, 0, 0);
-    }
-
-    private void Update()
-    {
-
-    }
 
     public void Move(float axisValue)//движение персонажа
     {
         rb.velocity = new Vector2(axisValue * speedMove, rb.velocity.y);
-
-        animator.SetFloat("HorizontalMove", Mathf.Abs(axisValue));
 
         if (axisValue > 0 && !flipRight)
         {
@@ -68,7 +113,7 @@ public class Character : MonoBehaviour
         {
             isRunning = true;
         }
-        
+
         animator.SetBool("isRunning", isRunning);
     }
 
@@ -89,12 +134,12 @@ public class Character : MonoBehaviour
         }
     }
 
-    public void OnAttack()//
+    public void OnAttack()// событие атаки для анимации
     {
         Collider2D[] enemies = Physics2D.OverlapCircleAll(attackObject.transform.position, attackRange, enemy);
         foreach (var enemy in enemies)
         {
-            Debug.Log(enemy.name + "take damage");
+            enemy.GetComponent<Character>().TakeDamage(damage);
         }
     }
 
@@ -121,9 +166,31 @@ public class Character : MonoBehaviour
             isGrounded = true;
     }
 
-    //private void OnDrawGizmosSelected()
-    //{
-    //    Gizmos.color = Color.red;
-    //    Gizmos.DrawWireSphere(attackObject.transform.position, attackRange);
-    //}
+    private void Death() // смерть персонажа
+    {
+        Debug.Log(gameObject.name + " dead)");
+    }
+
+    public void TakeDamage(float damage) // получение урона
+    {
+        Hp -= damage;
+    }
+
+
+    #endregion
+
+    public virtual void FirstAbility()
+    {
+        throw new NotImplementedException();
+    }
+
+    public virtual void SecondAbility()
+    {
+        throw new NotImplementedException();
+    }
+
+    public virtual void Ultimate()
+    {
+        throw new NotImplementedException();
+    }
 }

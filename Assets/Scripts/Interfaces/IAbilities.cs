@@ -4,7 +4,7 @@ using UnityEngine;
 
 interface IAbilities
 {
-    public void FirstMainAbility();
-    public void SecondMainAbility();
+    public void FirstAbility();
+    public void SecondAbility();
     public void Ultimate();
 }
