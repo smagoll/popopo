@@ -3,12 +3,19 @@ using UnityEngine;
 
 public class Character : MonoBehaviour, IAbilities
 {
+    #region UI
+
+    [SerializeField]
+    private HealthBar healthBar;
+    [SerializeField]
+    private ManaBar manaBar;
+
+    #endregion
+
     private void Start()
     {
         SetCharacteristics();
         rb = GetComponent<Rigidbody2D>();
-        attackObject = Instantiate(new GameObject(), gameObject.transform);
-        attackObject.transform.position = gameObject.transform.position + new Vector3(attackPosX, 0, 0);
     }
 
     #region Characteristics
@@ -32,6 +39,7 @@ public class Character : MonoBehaviour, IAbilities
             {
                 Death();
             }
+            healthBar.UpdateHealth(value);
         }
         get
         {
@@ -51,6 +59,7 @@ public class Character : MonoBehaviour, IAbilities
             {
                 mana = value;
             }
+            manaBar.UpdateMana(value);
         }
         get
         {
@@ -62,6 +71,8 @@ public class Character : MonoBehaviour, IAbilities
     {
         Hp = maxHp;
         Mana = maxMana;
+        healthBar.SetMaxHealth(maxHp);
+        manaBar.SetMaxMana(maxMana);
     }
 
     #endregion
@@ -71,8 +82,8 @@ public class Character : MonoBehaviour, IAbilities
     [SerializeField]
     private float timeStartAttack;
 
+    [SerializeField]
     private GameObject attackObject;// объет позиции атаки
-    private float attackPosX = 1f;// смещение атаки по оси X относительно персонажа
 
     [SerializeField]
     private float attackRange;
@@ -81,16 +92,15 @@ public class Character : MonoBehaviour, IAbilities
 
     private bool isGrounded = true;
 
-    private Rigidbody2D rb;
+    public Rigidbody2D rb;
     [SerializeField]
     private float speedMove;
     [SerializeField]
     private float speedJump;
     private bool flipRight = true;
-    private bool isRunning = false;
 
-    [SerializeField]
-    private Animator animator;
+    
+    public Animator animator;
 
     public void Move(float axisValue)//движение персонажа
     {
@@ -104,20 +114,9 @@ public class Character : MonoBehaviour, IAbilities
         {
             Flip();
         }
-
-        if (axisValue == 0)
-        {
-            isRunning = false;
-        }
-        else
-        {
-            isRunning = true;
-        }
-
-        animator.SetBool("isRunning", isRunning);
     }
 
-    private void Flip() // поворот персонажа
+    private void Flip() // поворот
     {
         flipRight = !flipRight;
         Vector2 theScale = transform.localScale;
@@ -129,12 +128,13 @@ public class Character : MonoBehaviour, IAbilities
     {
         if (isGrounded)
         {
+            animator.SetTrigger("jump");
             isGrounded = false;
             rb.AddForce(Vector2.up * speedJump, ForceMode2D.Impulse);
         }
     }
 
-    public void OnAttack()// событие атаки для анимации
+    public void OnAttack()// момент атаки (нанесение урона)
     {
         Collider2D[] enemies = Physics2D.OverlapCircleAll(attackObject.transform.position, attackRange, enemy);
         foreach (var enemy in enemies)
@@ -143,20 +143,22 @@ public class Character : MonoBehaviour, IAbilities
         }
     }
 
-    public void Attack(bool input)// атака
+    public bool Attack(bool input)// атака (возвращает true если совершена атака)
     {
         if (timeCurrentAttack <= 0)
         {
             if (input)
             {
-                animator.SetTrigger("Attack");
+                animator.SetTrigger("attack");
                 timeCurrentAttack = timeStartAttack;
-                Debug.Log("animation attack");
+                return true;
             }
+            return false;
         }
         else
         {
             timeCurrentAttack -= Time.deltaTime;
+            return false;
         }
     }
 
@@ -168,12 +170,17 @@ public class Character : MonoBehaviour, IAbilities
 
     private void Death() // смерть персонажа
     {
+        gameObject.GetComponent<BoxCollider2D>().enabled = false;
+        this.enabled = false;
+        rb.bodyType = RigidbodyType2D.Static;
+        animator.SetTrigger("death");
         Debug.Log(gameObject.name + " dead)");
     }
 
     public void TakeDamage(float damage) // получение урона
     {
         Hp -= damage;
+        animator.SetTrigger("damage");
     }
 
 

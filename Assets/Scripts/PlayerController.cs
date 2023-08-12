@@ -10,16 +10,8 @@ public class PlayerController : MonoBehaviour
     }
 
     void Update()
-    {
-        float axisValue = Input.GetAxis("Horizontal");
-        character.Move(axisValue);
-
-        if (Input.GetKey(KeyCode.W))
-        {
-            character.Jump();
-        }
-
-        character.Attack(Input.GetKey(KeyCode.H));
+    { 
+        //character.Attack(Input.GetKey(KeyCode.H));
 
         if (Input.GetKey(KeyCode.J))
         {

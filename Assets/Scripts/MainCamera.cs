@@ -42,6 +42,6 @@ public class MainCamera : MonoBehaviour
     private void FollowSize()
     {
         size = 5 + Vector3.Distance(pos1, pos2)/maxRangeBetweenHeroes*maxSizeCamera;
-        virtualCamera.m_Lens.OrthographicSize = size;
+        virtualCamera.m_Lens.OrthographicSize = Mathf.Clamp(size, 5f, 10f);
     }
 }

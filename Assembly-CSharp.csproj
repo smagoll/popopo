@@ -59,10 +59,19 @@
     <Compile Include="Assets\Scripts\PlayerController.cs" />
     <Compile Include="Assets\Scripts\Ability.cs" />
     <Compile Include="Assets\Scripts\Heroes\Toad.cs" />
+    <Compile Include="Assets\ManaBar.cs" />
     <Compile Include="Assets\Scripts\Abilities\CrowAbilities\CrowCloud.cs" />
+    <Compile Include="Assets\Scripts\State Machine\CharacterStateMachine.cs" />
+    <Compile Include="Assets\Scripts\State Machine\CharacterIdleState.cs" />
+    <Compile Include="Assets\HealthBar.cs" />
     <Compile Include="Assets\Scripts\Heroes\Crow.cs" />
+    <Compile Include="Assets\Scripts\MusicManager.cs" />
+    <Compile Include="Assets\Scripts\State Machine\CharacterAttackState.cs" />
+    <Compile Include="Assets\Scripts\State Machine\CharacterState.cs" />
     <Compile Include="Assets\Scripts\Character.cs" />
     <Compile Include="Assets\Scripts\MainCamera.cs" />
+    <Compile Include="Assets\Scripts\State Machine\CharacterJumpState.cs" />
+    <Compile Include="Assets\Scripts\State Machine\CharacterMovingState.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IAbilities.cs" />
   </ItemGroup>
   <ItemGroup>
