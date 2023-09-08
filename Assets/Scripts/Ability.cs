@@ -14,9 +14,9 @@ public abstract class Ability
 
     public void Start()
     {
-        if (!isAbility && character.Mana > manapool)
+        if (!isAbility && character.Mp > manapool)
         {
-            character.Mana -= manapool;
+            character.Mp -= manapool;
             //animator.SetTrigger("Attack");
             Action();
             isAbility = !isAbility;

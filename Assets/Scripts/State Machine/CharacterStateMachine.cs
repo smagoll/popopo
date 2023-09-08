@@ -1,21 +1,30 @@
 using UnityEngine;
 public class CharacterStateMachine : MonoBehaviour
 {
-    [SerializeField]
     private Character character;
 
     private CharacterState currentState;
-    public CharacterMovingState movingState;
+    public CharacterWalkState walkState;
     public CharacterIdleState idleState;
     public CharacterAttackState attackState;
+    public CharacterAdittionalAttackState adittionalAttackState;
     public CharacterJumpState jumpState;
+    public CharacterBlockState blockState;
+    public CharacterDuckState duckState;
+
+    public InputAsset input;
 
     private void Awake()
     {
-        movingState = new(character);
+        character = gameObject.GetComponent<Character>();
+
+        walkState = new(character);
         idleState = new(character);
         attackState = new(character);
+        adittionalAttackState = new(character);
         jumpState = new(character);
+        blockState = new(character);
+        duckState = new(character);
 
         currentState = idleState;
     }
@@ -33,6 +42,7 @@ public class CharacterStateMachine : MonoBehaviour
 
     public void SwitchState(CharacterState state)
     {
+        currentState.ExitState(this);
         currentState = state;
         state.EnterState(this);
     }

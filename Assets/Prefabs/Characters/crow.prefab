@@ -14,10 +14,10 @@ GameObject:
   - component: {fileID: 1855827967259953784}
   - component: {fileID: 1855827967259953735}
   - component: {fileID: 3043164546658405356}
-  - component: {fileID: 3962048826991033502}
-  m_Layer: 0
+  - component: {fileID: 707816678}
+  m_Layer: 6
   m_Name: crow
-  m_TagString: Untagged
+  m_TagString: hero
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -36,7 +36,7 @@ Transform:
   m_Children:
   - {fileID: 4244869270635682195}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1855827967259953731
 SpriteRenderer:
@@ -149,9 +149,9 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
+  m_LinearDrag: 10
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 20
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -171,20 +171,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthBar: {fileID: 0}
   manaBar: {fileID: 0}
+  indicators: {fileID: 11400000, guid: 57e42c1f05281f1419c4af2ae1e6cda0, type: 2}
+  input: {fileID: 11400000, guid: a705b7a9abcb5e0468200d14e387369c, type: 2}
   maxHp: 100
-  maxMana: 50
+  maxMp: 0
   damage: 10
-  timeStartAttack: 0.5
-  attackObject: {fileID: 0}
-  attackRange: 0.2
+  timeStartAttack: 0
+  timeInStun: 0
+  attackObject: {fileID: 7740896888461126271}
+  attackRange: 0
   enemy:
     serializedVersion: 2
     m_Bits: 128
+  isBlock: 0
+  isStun: 0
   rb: {fileID: 0}
-  speedMove: 10
-  speedJump: 50
+  speedMove: 0
+  speedJump: 0
   animator: {fileID: 1855827967259953733}
---- !u!114 &3962048826991033502
+--- !u!114 &707816678
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -193,7 +198,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1855827967259953730}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 356e6b48b6146c343a458e0764b1b703, type: 3}
+  m_Script: {fileID: 11500000, guid: 4b83be0de16e6b64b8282f989af7e792, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &7740896888461126271

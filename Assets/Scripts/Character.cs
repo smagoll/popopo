@@ -1,7 +1,8 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
-public class Character : MonoBehaviour, IAbilities
+public class Character : MonoBehaviour, IAbilities, IAttack
 {
     #region UI
 
@@ -12,9 +13,14 @@ public class Character : MonoBehaviour, IAbilities
 
     #endregion
 
+    public Indicators indicators;
+    private Camera _camera;
+
     private void Start()
     {
+        _camera = Camera.main;
         SetCharacteristics();
+        InitIndicators();
         rb = GetComponent<Rigidbody2D>();
     }
 
@@ -23,12 +29,12 @@ public class Character : MonoBehaviour, IAbilities
     [SerializeField]
     private float maxHp;
     [SerializeField]
-    private float maxMana;
+    private float maxMp;
     [SerializeField]
     private float damage;
 
     private float hp;
-    private float mana;
+    private float mp;
 
     public float Hp
     {
@@ -47,32 +53,41 @@ public class Character : MonoBehaviour, IAbilities
         }
     }
     
-    public float Mana
+    public float Mp
     {
         set
         {
-            if (mana + value > maxMana)
+            if (mp + value > maxMp)
             {
-                mana = maxMana;
+                mp = maxMp;
             }
             else
             {
-                mana = value;
+                mp = value;
             }
             manaBar.UpdateMana(value);
         }
         get
         {
-            return mana;
+            return mp;
         }
+    }
+
+    private void InitIndicators()
+    {
+        timeStartAttack = indicators.TimeStartAttack;
+        timeInStun = indicators.TimeInStun;
+        attackRange = indicators.AttackRange;
+        speedMove = indicators.SpeedMove;
+        speedJump = indicators.SpeedJump;
     }
 
     public void SetCharacteristics()
     {
         Hp = maxHp;
-        Mana = maxMana;
+        Mp = maxMp;
         healthBar.SetMaxHealth(maxHp);
-        manaBar.SetMaxMana(maxMana);
+        manaBar.SetMaxMana(maxMp);
     }
 
     #endregion
@@ -80,10 +95,12 @@ public class Character : MonoBehaviour, IAbilities
     #region Physics
     private float timeCurrentAttack = 0f;
     [SerializeField]
-    private float timeStartAttack;
+    public float timeStartAttack;
+    [SerializeField]
+    private float timeInStun;
 
     [SerializeField]
-    private GameObject attackObject;// объет позиции атаки
+    private GameObject attackObject;
 
     [SerializeField]
     private float attackRange;
@@ -91,6 +108,9 @@ public class Character : MonoBehaviour, IAbilities
     private LayerMask enemy;
 
     private bool isGrounded = true;
+    private bool isBlock = false;
+    public bool isStun = false;
+
 
     public Rigidbody2D rb;
     [SerializeField]
@@ -102,7 +122,7 @@ public class Character : MonoBehaviour, IAbilities
     
     public Animator animator;
 
-    public void Move(float axisValue)//движение персонажа
+    public void Move(float axisValue) // РїРµСЂРµРґРІРёР¶РµРЅРёРµ РїРµСЂСЃРѕРЅР°Р¶Р°
     {
         rb.velocity = new Vector2(axisValue * speedMove, rb.velocity.y);
 
@@ -114,9 +134,35 @@ public class Character : MonoBehaviour, IAbilities
         {
             Flip();
         }
+        PreventPlayerGoingOffScreen();
     }
 
-    private void Flip() // поворот
+    public void DuckMove(float axisValue) // РїРµСЂРµРґРІРёР¶РµРЅРёРµ РїРµСЂСЃРѕРЅР°Р¶Р° СЃРёРґСЏ
+    {
+        rb.velocity = new Vector2(axisValue * speedMove / 2, rb.velocity.y);
+
+        if (axisValue > 0 && !flipRight)
+        {
+            Flip();
+        }
+        else if (axisValue < 0 && flipRight)
+        {
+            Flip();
+        }
+        PreventPlayerGoingOffScreen();
+    }
+
+    private void PreventPlayerGoingOffScreen() // РѕРіСЂР°РЅРёС‡РµРЅРёРµ РІС‹С…РѕРґР° Р·Р° РєР°РјРµСЂСѓ РїРµСЂСЃРѕРЅР°Р¶Р°
+    {
+        Vector2 screenPosition = _camera.WorldToScreenPoint(transform.position);
+
+        if ((screenPosition.x < 0 && rb.velocity.x < 0) || (screenPosition.x > _camera.pixelWidth && rb.velocity.x > 0))
+        {
+            rb.velocity = new Vector2(0, rb.velocity.y);
+        }
+    }
+
+    private void Flip() // РїРѕРІРѕСЂРѕС‚ РїРµСЂСЃРѕРЅР°Р¶Р°
     {
         flipRight = !flipRight;
         Vector2 theScale = transform.localScale;
@@ -124,7 +170,7 @@ public class Character : MonoBehaviour, IAbilities
         transform.localScale = theScale;
     }
 
-    public void Jump() // прыжок
+    public void Jump() // РїСЂС‹Р¶РѕРє
     {
         if (isGrounded)
         {
@@ -134,7 +180,7 @@ public class Character : MonoBehaviour, IAbilities
         }
     }
 
-    public void OnAttack()// момент атаки (нанесение урона)
+    public void OnAttack()
     {
         Collider2D[] enemies = Physics2D.OverlapCircleAll(attackObject.transform.position, attackRange, enemy);
         foreach (var enemy in enemies)
@@ -143,7 +189,26 @@ public class Character : MonoBehaviour, IAbilities
         }
     }
 
-    public bool Attack(bool input)// атака (возвращает true если совершена атака)
+    //public bool Attack(bool input)
+    //{
+    //    if (timeCurrentAttack <= 0)
+    //    {
+    //        if (input)
+    //        {
+    //            animator.SetTrigger("attack");
+    //            timeCurrentAttack = timeStartAttack;
+    //            return true;
+    //        }
+    //        return false;
+    //    }
+    //    else
+    //    {
+    //        timeCurrentAttack -= Time.deltaTime;
+    //        return false;
+    //    }
+    //}
+
+    public bool AdittionalAttack(bool input)
     {
         if (timeCurrentAttack <= 0)
         {
@@ -162,27 +227,52 @@ public class Character : MonoBehaviour, IAbilities
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision) // проверка есть ли земля под ногами
+    private void OnCollisionEnter2D(Collision2D collision) // РїСЂРѕРІРµСЂРєР° Р·РµРјР»Рё РїРѕРґ РЅРѕРіР°РјРё
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
             isGrounded = true;
     }
 
-    private void Death() // смерть персонажа
+    private void Death() // СЃРјРµСЂС‚СЊ
     {
+        animator.SetTrigger("death");
         gameObject.GetComponent<BoxCollider2D>().enabled = false;
         this.enabled = false;
         rb.bodyType = RigidbodyType2D.Static;
-        animator.SetTrigger("death");
         Debug.Log(gameObject.name + " dead)");
     }
 
-    public void TakeDamage(float damage) // получение урона
+    public void TakeDamage(float damage) // РїРѕР»СѓС‡РµРЅРёРµ СѓСЂРѕРЅР°
     {
-        Hp -= damage;
-        animator.SetTrigger("damage");
+
+        if (isBlock)
+        {
+            Hp -= damage/3;
+        }
+        else
+        {
+            animator.SetTrigger("damage");
+            Hp -= damage;
+            StartCoroutine(Stun());
+        }
     }
 
+    public void OnBlock()
+    {
+        isBlock = true;
+    }
+    
+    public void ExitBlock()
+    {
+        isBlock = false;
+    }
+
+    private IEnumerator Stun() // РѕРіР»СѓС€РµРЅРёРµ РїРµСЂСЃРѕРЅР°Р¶Р°
+    {
+        isStun = true;
+        yield return new WaitForSeconds(timeInStun);
+        isStun = false;
+    }
 
     #endregion
 

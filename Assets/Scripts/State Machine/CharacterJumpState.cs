@@ -2,11 +2,8 @@
 using UnityEngine;
 public class CharacterJumpState : CharacterState
 {
-    private Character character;
-
-    public CharacterJumpState(Character character)
+    public CharacterJumpState(Character character) : base(character)
     {
-        this.character = character;
     }
 
     public override void AnimationTriggerEvent(CharacterStateMachine characterState)
@@ -21,7 +18,7 @@ public class CharacterJumpState : CharacterState
 
     public override void ExitState(CharacterStateMachine characterState)
     {
-        throw new NotImplementedException();
+        
     }
 
     public override void FrameUpdate(CharacterStateMachine characterState)
@@ -31,6 +28,6 @@ public class CharacterJumpState : CharacterState
 
     public override void InputUpdate(CharacterStateMachine characterState)
     {
-        
+
     }
 }

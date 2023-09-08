@@ -1,12 +1,13 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CharacterAttackState : CharacterState
 {
-    private Character character;
-    public CharacterAttackState(Character character)
+    public int numCombo = 0;
+    public float lastClickTime = 0;
+    public bool isEndCombo = false;
+
+    public CharacterAttackState(Character character) : base(character)
     {
-        this.character = character;
     }
 
     public override void AnimationTriggerEvent(CharacterStateMachine characterState)
@@ -16,22 +17,37 @@ public class CharacterAttackState : CharacterState
 
     public override void EnterState(CharacterStateMachine characterState)
     {
-        Debug.Log("attack");
+
     }
 
     public override void ExitState(CharacterStateMachine characterState)
     {
-        throw new System.NotImplementedException();
+        numCombo = 0;
+        isEndCombo = false;
     }
 
     public override void FrameUpdate(CharacterStateMachine characterState)
     {
-        characterState.SwitchState(characterState.idleState);
+        
+        if (Time.time - lastClickTime > character.timeStartAttack && numCombo == 0)
+        {
+            lastClickTime = Time.time;
+            numCombo++;
+            character.animator.SetTrigger("attack" + numCombo);
+        }
+
+        if (isEndCombo)
+        {
+            characterState.SwitchState(characterState.idleState);
+        }
     }
 
     public override void InputUpdate(CharacterStateMachine characterState)
     {
-        
+        if (Input.GetKeyDown(characterState.input.attack))
+        {
+            lastClickTime = Time.time;
+        }
     }
 }
 
