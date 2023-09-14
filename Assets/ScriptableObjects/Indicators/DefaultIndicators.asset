@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a77fbb2eb35aad49888e634f3a0f04f, type: 3}
   m_Name: DefaultIndicators
   m_EditorClassIdentifier: 
-  timeStartAttack: 0.7
+  timeStartAttack: 0.3
   timeInStun: 0.5
   attackRange: 0.2
   speedMove: 10

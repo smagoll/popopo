@@ -749,7 +749,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.1201863, y: 2.742314, z: -10}
+  m_LocalPosition: {x: -0.35153008, y: 2.7554934, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3324,6 +3324,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3043164546658405356, guid: 4bdc72d0f874ad94397bb8c2966dce91, type: 3}
+      propertyPath: maxMp
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 3043164546658405356, guid: 4bdc72d0f874ad94397bb8c2966dce91, type: 3}
       propertyPath: manaBar
       value: 
       objectReference: {fileID: 844944646}
@@ -3331,6 +3335,14 @@ PrefabInstance:
       propertyPath: healthBar
       value: 
       objectReference: {fileID: 374504945}
+    - target: {fileID: 3043164546658405356, guid: 4bdc72d0f874ad94397bb8c2966dce91, type: 3}
+      propertyPath: timeStartAttack
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3043164546658405356, guid: 4bdc72d0f874ad94397bb8c2966dce91, type: 3}
+      propertyPath: layerEnemy.m_Bits
+      value: 128
+      objectReference: {fileID: 0}
     - target: {fileID: 4244869270635682195, guid: 4bdc72d0f874ad94397bb8c2966dce91, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
@@ -3354,6 +3366,10 @@ PrefabInstance:
       propertyPath: healthBar
       value: 
       objectReference: {fileID: 1595742641}
+    - target: {fileID: 2209351473125388931, guid: 9457e1ecc61eaa74e87526ab5632007d, type: 3}
+      propertyPath: layerEnemy.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
     - target: {fileID: 2209351473125388937, guid: 9457e1ecc61eaa74e87526ab5632007d, type: 3}
       propertyPath: m_Name
       value: toad

@@ -17,10 +17,18 @@ public abstract class Ability
         if (!isAbility && character.Mp > manapool)
         {
             character.Mp -= manapool;
-            //animator.SetTrigger("Attack");
             Action();
             isAbility = !isAbility;
             Debug.Log(isAbility);
+            End();
+        }
+    }
+
+    private void End()
+    {
+        if (isAbility)
+        {
+            isAbility = !isAbility;
         }
     }
 

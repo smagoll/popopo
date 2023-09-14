@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Character : MonoBehaviour, IAbilities, IAttack
@@ -22,6 +23,7 @@ public class Character : MonoBehaviour, IAbilities, IAttack
         SetCharacteristics();
         InitIndicators();
         rb = GetComponent<Rigidbody2D>();
+        FlipToEnemy();
     }
 
     #region Characteristics
@@ -57,7 +59,7 @@ public class Character : MonoBehaviour, IAbilities, IAttack
     {
         set
         {
-            if (mp + value > maxMp)
+            if (value > maxMp)
             {
                 mp = maxMp;
             }
@@ -75,6 +77,8 @@ public class Character : MonoBehaviour, IAbilities, IAttack
 
     private void InitIndicators()
     {
+        hp = maxHp;
+        mp = 0f;
         timeStartAttack = indicators.TimeStartAttack;
         timeInStun = indicators.TimeInStun;
         attackRange = indicators.AttackRange;
@@ -105,7 +109,8 @@ public class Character : MonoBehaviour, IAbilities, IAttack
     [SerializeField]
     private float attackRange;
     [SerializeField]
-    private LayerMask enemy;
+    private LayerMask layerEnemy;
+    public List<GameObject> enemies;
 
     private bool isGrounded = true;
     private bool isBlock = false;
@@ -122,24 +127,30 @@ public class Character : MonoBehaviour, IAbilities, IAttack
     
     public Animator animator;
 
+    public Vector3 DirectionToCloseEnemy()
+    {
+        var heading = enemies.ToArray()[0].transform.position - transform.position;
+        var direction = heading / heading.magnitude;
+        return direction;
+    }
+
+    public void FlipToEnemy()
+    {
+        FindEnemies();
+        var direction = DirectionToCloseEnemy();
+        if (direction.x > 0 && !flipRight)
+        {
+            Flip();
+        }
+        if (direction.x < 0 && flipRight)
+        {
+            Flip();
+        }     
+    }
+
     public void Move(float axisValue) // передвижение персонажа
     {
         rb.velocity = new Vector2(axisValue * speedMove, rb.velocity.y);
-
-        if (axisValue > 0 && !flipRight)
-        {
-            Flip();
-        }
-        else if (axisValue < 0 && flipRight)
-        {
-            Flip();
-        }
-        PreventPlayerGoingOffScreen();
-    }
-
-    public void DuckMove(float axisValue) // передвижение персонажа сидя
-    {
-        rb.velocity = new Vector2(axisValue * speedMove / 2, rb.velocity.y);
 
         if (axisValue > 0 && !flipRight)
         {
@@ -182,48 +193,10 @@ public class Character : MonoBehaviour, IAbilities, IAttack
 
     public void OnAttack()
     {
-        Collider2D[] enemies = Physics2D.OverlapCircleAll(attackObject.transform.position, attackRange, enemy);
+        Collider2D[] enemies = Physics2D.OverlapCircleAll(attackObject.transform.position, attackRange, layerEnemy);
         foreach (var enemy in enemies)
         {
             enemy.GetComponent<Character>().TakeDamage(damage);
-        }
-    }
-
-    //public bool Attack(bool input)
-    //{
-    //    if (timeCurrentAttack <= 0)
-    //    {
-    //        if (input)
-    //        {
-    //            animator.SetTrigger("attack");
-    //            timeCurrentAttack = timeStartAttack;
-    //            return true;
-    //        }
-    //        return false;
-    //    }
-    //    else
-    //    {
-    //        timeCurrentAttack -= Time.deltaTime;
-    //        return false;
-    //    }
-    //}
-
-    public bool AdittionalAttack(bool input)
-    {
-        if (timeCurrentAttack <= 0)
-        {
-            if (input)
-            {
-                animator.SetTrigger("attack");
-                timeCurrentAttack = timeStartAttack;
-                return true;
-            }
-            return false;
-        }
-        else
-        {
-            timeCurrentAttack -= Time.deltaTime;
-            return false;
         }
     }
 
@@ -244,7 +217,6 @@ public class Character : MonoBehaviour, IAbilities, IAttack
 
     public void TakeDamage(float damage) // получение урона
     {
-
         if (isBlock)
         {
             Hp -= damage/3;
@@ -261,7 +233,7 @@ public class Character : MonoBehaviour, IAbilities, IAttack
     {
         isBlock = true;
     }
-    
+
     public void ExitBlock()
     {
         isBlock = false;
@@ -272,6 +244,19 @@ public class Character : MonoBehaviour, IAbilities, IAttack
         isStun = true;
         yield return new WaitForSeconds(timeInStun);
         isStun = false;
+    }
+
+    private void FindEnemies()
+    {
+        var layerNumber = Math.Log(layerEnemy.value, 2);
+        var heroes = GameObject.FindGameObjectsWithTag("hero");
+        foreach (var hero in heroes)
+        {
+            if (hero.layer == layerNumber)
+            {
+                enemies.Add(hero);
+            }
+        }
     }
 
     #endregion
