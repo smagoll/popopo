@@ -8,5 +8,4 @@ public class Crow : Character
         var ability = new CrowCloud(this);
         ability.Start();
     }
-
 }
