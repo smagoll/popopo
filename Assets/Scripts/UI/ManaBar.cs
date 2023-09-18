@@ -9,7 +9,7 @@ public class ManaBar : MonoBehaviour
     public void SetMaxMana(float mana)
     {
         slider.maxValue = mana;
-        slider.value = mana;
+        slider.value = 0f;
     }
     public void UpdateMana(float mana)
     {

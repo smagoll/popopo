@@ -129,6 +129,7 @@ public class Character : MonoBehaviour, IAbilities, IAttack
 
     public Vector3 DirectionToCloseEnemy()
     {
+        FindEnemies();
         var heading = enemies.ToArray()[0].transform.position - transform.position;
         var direction = heading / heading.magnitude;
         return direction;
@@ -136,7 +137,6 @@ public class Character : MonoBehaviour, IAbilities, IAttack
 
     public void FlipToEnemy()
     {
-        FindEnemies();
         var direction = DirectionToCloseEnemy();
         if (direction.x > 0 && !flipRight)
         {

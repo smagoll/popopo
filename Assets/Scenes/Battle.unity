@@ -725,7 +725,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 8.072972
+  orthographic size: 5.294337
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -749,7 +749,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.353537, y: 2.7440655, z: -10}
+  m_LocalPosition: {x: -6.612847, y: -0.039266825, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2459,7 +2459,7 @@ MonoBehaviour:
   m_Follow: {fileID: 0}
   m_Lens:
     FieldOfView: 60
-    OrthographicSize: 8.072972
+    OrthographicSize: 5.294337
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0
@@ -3324,6 +3324,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3043164546658405356, guid: 4bdc72d0f874ad94397bb8c2966dce91, type: 3}
+      propertyPath: maxMp
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 3043164546658405356, guid: 4bdc72d0f874ad94397bb8c2966dce91, type: 3}
       propertyPath: manaBar
       value: 
       objectReference: {fileID: 844944646}
@@ -3331,6 +3335,10 @@ PrefabInstance:
       propertyPath: healthBar
       value: 
       objectReference: {fileID: 374504945}
+    - target: {fileID: 3043164546658405356, guid: 4bdc72d0f874ad94397bb8c2966dce91, type: 3}
+      propertyPath: layerEnemy.m_Bits
+      value: 128
+      objectReference: {fileID: 0}
     - target: {fileID: 4244869270635682195, guid: 4bdc72d0f874ad94397bb8c2966dce91, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
@@ -3347,6 +3355,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2209351473125388931, guid: 9457e1ecc61eaa74e87526ab5632007d, type: 3}
+      propertyPath: maxMp
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 2209351473125388931, guid: 9457e1ecc61eaa74e87526ab5632007d, type: 3}
       propertyPath: manaBar
       value: 
       objectReference: {fileID: 1601095152}
@@ -3354,6 +3366,10 @@ PrefabInstance:
       propertyPath: healthBar
       value: 
       objectReference: {fileID: 1595742641}
+    - target: {fileID: 2209351473125388931, guid: 9457e1ecc61eaa74e87526ab5632007d, type: 3}
+      propertyPath: layerEnemy.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
     - target: {fileID: 2209351473125388937, guid: 9457e1ecc61eaa74e87526ab5632007d, type: 3}
       propertyPath: m_Name
       value: toad
