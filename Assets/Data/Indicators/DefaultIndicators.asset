@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DefaultIndicators
   m_EditorClassIdentifier: 
   timeStartAttack: 0.3
-  timeInStun: 0.5
-  attackRange: 0.2
+  timeInStun: 1
+  attackRange: 0.7
   speedMove: 10
   speedJump: 50

@@ -97,7 +97,6 @@ public class Character : MonoBehaviour, IAbilities, IAttack
     #endregion
 
     #region Physics
-    private float timeCurrentAttack = 0f;
     [SerializeField]
     public float timeStartAttack;
     [SerializeField]
@@ -134,6 +133,14 @@ public class Character : MonoBehaviour, IAbilities, IAttack
         var direction = heading / heading.magnitude;
         return direction;
     }
+
+    public float DistanceToCloseEnemy()
+    {
+        FindEnemies();
+        var heading = enemies.ToArray()[0].transform.position - transform.position;
+        return heading.magnitude;
+    }
+
 
     public void FlipToEnemy()
     {
@@ -196,7 +203,10 @@ public class Character : MonoBehaviour, IAbilities, IAttack
         Collider2D[] enemies = Physics2D.OverlapCircleAll(attackObject.transform.position, attackRange, layerEnemy);
         foreach (var enemy in enemies)
         {
-            enemy.GetComponent<Character>().TakeDamage(damage);
+            if (enemy.CompareTag("hero"))
+            {
+                enemy.GetComponent<Character>().TakeDamage(damage);
+            }
         }
     }
 

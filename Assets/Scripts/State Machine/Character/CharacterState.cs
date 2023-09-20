@@ -10,5 +10,4 @@ public abstract class CharacterState
     public abstract void ExitState(CharacterStateMachine characterState);
     public abstract void FrameUpdate(CharacterStateMachine characterState);
     public abstract void InputUpdate(CharacterStateMachine characterState);
-    public abstract void AnimationTriggerEvent(CharacterStateMachine characterState);
 }

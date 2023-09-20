@@ -38,6 +38,10 @@ public class CharacterStateMachine : MonoBehaviour
 
     private void Update()
     {
+        if (character.isStun)
+        {
+            return;
+        }
         currentState.InputUpdate(this);
         currentState.FrameUpdate(this);
     }

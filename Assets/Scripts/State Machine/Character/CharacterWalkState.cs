@@ -6,11 +6,6 @@ public class CharacterWalkState : CharacterState
     {
     }
 
-    public override void AnimationTriggerEvent(CharacterStateMachine characterState)
-    {
-        throw new System.NotImplementedException();
-    }
-
     public override void EnterState(CharacterStateMachine characterState)
     {
         Debug.Log("mov");
@@ -20,7 +15,6 @@ public class CharacterWalkState : CharacterState
     public override void ExitState(CharacterStateMachine characterState)
     {
         character.animator.SetBool("isRunning", false);
-        //character.FlipToEnemy();
     }
 
     public override void FrameUpdate(CharacterStateMachine characterState)
@@ -36,11 +30,6 @@ public class CharacterWalkState : CharacterState
 
     public override void InputUpdate(CharacterStateMachine characterState)
     {
-        if (character.isStun)
-        {
-            return;
-        }
-
         if ((Input.GetKeyDown(characterState.input.attack)))
         {
             characterState.SwitchState(characterState.attackState);

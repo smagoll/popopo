@@ -7,11 +7,6 @@ public class CharacterIdleState : CharacterState
     {
     }
 
-    public override void AnimationTriggerEvent(CharacterStateMachine characterState)
-    {
-        throw new System.NotImplementedException();
-    }
-
     public override void EnterState(CharacterStateMachine characterState)
     {
         Debug.Log("idle");
@@ -29,11 +24,6 @@ public class CharacterIdleState : CharacterState
 
     public override void InputUpdate(CharacterStateMachine characterState)
     {
-        if (character.isStun)
-        {
-            return;
-        }
-
         if (Math.Abs(Input.GetAxis("Horizontal")) > 0)
         {
             characterState.SwitchState(characterState.walkState);

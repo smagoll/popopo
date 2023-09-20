@@ -11,11 +11,6 @@ public class CharacterAdittionalAttackState : CharacterState
     {
     }
 
-    public override void AnimationTriggerEvent(CharacterStateMachine characterState)
-    {
-        throw new System.NotImplementedException();
-    }
-
     public override void EnterState(CharacterStateMachine characterState)
     {
         Attack();
