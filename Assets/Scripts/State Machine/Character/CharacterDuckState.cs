@@ -30,5 +30,10 @@ public class CharacterDuckState : CharacterState
         {
             characterState.SwitchState(characterState.idleState);
         }
+
+        if (Input.GetKeyDown(characterState.input.attack))
+        {
+            character.FirstAbility();
+        }
     }
 }

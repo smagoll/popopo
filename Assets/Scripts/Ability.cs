@@ -2,9 +2,7 @@
 
 public abstract class Ability
 {
-    private bool isAbility = false; // активна ли способность
-    private int manapool;
-    private int damage;
+    public float manapool = 20f;
     public Character character;
 
     public Ability(Character character)
@@ -14,22 +12,7 @@ public abstract class Ability
 
     public void Start()
     {
-        if (!isAbility && character.Mp > manapool)
-        {
-            character.Mp -= manapool;
-            Action();
-            isAbility = !isAbility;
-            Debug.Log(isAbility);
-            End();
-        }
-    }
-
-    private void End()
-    {
-        if (isAbility)
-        {
-            isAbility = !isAbility;
-        }
+        Action();
     }
 
     public abstract void Action();
