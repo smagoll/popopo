@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class Character : MonoBehaviour, IAbilities, IAttack
 {
@@ -126,6 +127,9 @@ public class Character : MonoBehaviour, IAbilities, IAttack
     
     public Animator animator;
 
+    [SerializeField]
+    private VisualEffect _hit;
+
     public Vector3 DirectionToCloseEnemy()
     {
         FindEnemies();
@@ -205,7 +209,9 @@ public class Character : MonoBehaviour, IAbilities, IAttack
         {
             if (enemy.CompareTag("hero"))
             {
-                enemy.GetComponent<Character>().TakeDamage(damage);
+                var charEnemy = enemy.GetComponent<Character>();
+                charEnemy.TakeDamage(damage);
+                charEnemy._hit.SendEvent("OnHit");
             }
         }
     }

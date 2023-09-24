@@ -33,7 +33,10 @@ public class AIAttackState : AIState
 
     public override void InputUpdate(AIStateMachine aiState)
     {
-        
+        if (Time.time - lastClickTime > character.timeStartAttack && numCombo < maxCombo)
+        {
+            Attack();
+        }
     }
 
     private void Attack()
