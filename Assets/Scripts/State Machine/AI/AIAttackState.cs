@@ -1,9 +1,10 @@
 ﻿
+using System.Collections;
 using UnityEngine;
 
 public class AIAttackState : AIState
 {
-
+    public bool cooldown = false;
     public int numCombo = 0;
     public int maxCombo = 3;
     public float lastClickTime = 0;
@@ -15,11 +16,24 @@ public class AIAttackState : AIState
 
     public override void EnterState(AIStateMachine aiState)
     {
-        Attack();
+        if (cooldown)
+        {
+            aiState.SwitchState(aiState.idleState);
+            Debug.Log("cd");
+        }
+        else
+        {
+            Attack();
+        }
     }
 
     public override void ExitState(AIStateMachine aiState)
     {
+        if (numCombo > 0)
+        {
+            cooldown = true;
+            aiState.cdAttack();
+        }
         numCombo = 0;
     }
 
@@ -33,7 +47,12 @@ public class AIAttackState : AIState
 
     public override void InputUpdate(AIStateMachine aiState)
     {
-        if (Time.time - lastClickTime > character.timeStartAttack && numCombo < maxCombo)
+        if (character.isStun)
+        {
+            return;
+        }
+
+        if (Time.time - lastClickTime > character.timeStartAttack && numCombo <= maxCombo)
         {
             Attack();
         }

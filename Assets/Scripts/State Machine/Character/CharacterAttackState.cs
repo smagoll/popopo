@@ -33,6 +33,11 @@ public class CharacterAttackState : CharacterState
 
     public override void InputUpdate(CharacterStateMachine characterState)
     {
+        if (character.isStun)
+        {
+            return;
+        }
+
         if (Input.GetKeyDown(characterState.input.attack))
         {
             if (Time.time - lastClickTime > character.timeStartAttack && numCombo < maxCombo)

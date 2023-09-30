@@ -30,9 +30,9 @@ public class Character : MonoBehaviour, IAbilities, IAttack
     #region Characteristics
 
     [SerializeField]
-    private float maxHp;
+    public float maxHp;
     [SerializeField]
-    private float maxMp;
+    public float maxMp;
     [SerializeField]
     private float damage;
 
@@ -122,6 +122,8 @@ public class Character : MonoBehaviour, IAbilities, IAttack
     private float speedMove;
     [SerializeField]
     private float speedJump;
+    [SerializeField]
+    private float forcePush;
     private bool flipRight = true;
 
     
@@ -241,7 +243,27 @@ public class Character : MonoBehaviour, IAbilities, IAttack
         {
             animator.SetTrigger("damage");
             Hp -= damage;
-            StartCoroutine(Stun());
+            TakeStun();
+        }
+    }
+
+    public void TakePush(float forcePush, Vector3 direction)
+    {
+        rb.AddForce(direction * forcePush, ForceMode2D.Impulse);
+    }
+
+    public void OnAttackWithPush()
+    {
+        Collider2D[] enemies = Physics2D.OverlapCircleAll(attackObject.transform.position, attackRange, layerEnemy);
+        foreach (var enemy in enemies)
+        {
+            if (enemy.CompareTag("hero"))
+            {
+                var charEnemy = enemy.GetComponent<Character>();
+                charEnemy.TakeDamage(damage);
+                charEnemy.TakePush(forcePush, DirectionToCloseEnemy());
+                charEnemy._hit.SendEvent("OnHit");
+            }
         }
     }
 
@@ -255,6 +277,11 @@ public class Character : MonoBehaviour, IAbilities, IAttack
         isBlock = false;
     }
 
+    public void TakeStun()
+    {
+        StartCoroutine(Stun());
+    }
+
     private IEnumerator Stun() // оглушение персонажа
     {
         isStun = true;
@@ -264,6 +291,7 @@ public class Character : MonoBehaviour, IAbilities, IAttack
 
     private void FindEnemies()
     {
+        enemies.Clear();
         var layerNumber = Math.Log(layerEnemy.value, 2);
         var heroes = GameObject.FindGameObjectsWithTag("hero");
         foreach (var hero in heroes)

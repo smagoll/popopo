@@ -1,16 +1,17 @@
 ﻿using UnityEngine;
 
-public abstract class Ability
+public abstract class Ability : MonoBehaviour
 {
-    public float manapool = 20f;
+    public float manapool;
+    public float damage;
     public Character character;
 
-    public Ability(Character character)
+    private void Start()
     {
-        this.character = character;
+        character = gameObject.GetComponent<Character>();
     }
 
-    public void Start()
+    public void Launch()
     {
         Action();
     }

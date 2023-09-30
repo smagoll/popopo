@@ -4,14 +4,17 @@ using UnityEngine;
 
 public class Crow : Character
 {
+    [SerializeField]
+    private CrowCloud crowcloud;
+
     public override void FirstAbility()
     {
-        var ability = new CrowCloud(this);
+        var ability = gameObject.GetComponent<CrowCloud>();
         if (ability.manapool < Mp)
         {
             Mp -= ability.manapool;
             animator.SetTrigger("first_ability");
-            ability.Start();
+            ability.Launch();
         }
         else
             return;

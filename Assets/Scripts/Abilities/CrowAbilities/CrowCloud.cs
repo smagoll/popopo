@@ -3,13 +3,12 @@ using UnityEngine;
 
 public class CrowCloud : Ability
 {
-    public CrowCloud(Character character) : base(character) { }
-
-    public float timeAbility = 1f;
+    [SerializeField]
+    private GameObject prefCrowcloud;
 
     public override void Action()
     {
-        Debug.Log("CrowCloud start");
+        Instantiate(prefCrowcloud);
     }
 }
 
