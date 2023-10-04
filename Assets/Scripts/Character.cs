@@ -108,8 +108,7 @@ public class Character : MonoBehaviour, IAbilities, IAttack
 
     [SerializeField]
     private float attackRange;
-    [SerializeField]
-    private LayerMask layerEnemy;
+    public LayerMask layerEnemy;
     public List<GameObject> enemies;
 
     private bool isGrounded = true;
@@ -213,7 +212,6 @@ public class Character : MonoBehaviour, IAbilities, IAttack
             {
                 var charEnemy = enemy.GetComponent<Character>();
                 charEnemy.TakeDamage(damage);
-                charEnemy._hit.SendEvent("OnHit");
             }
         }
     }
@@ -244,6 +242,7 @@ public class Character : MonoBehaviour, IAbilities, IAttack
             animator.SetTrigger("damage");
             Hp -= damage;
             TakeStun();
+            _hit.SendEvent("OnHit");
         }
     }
 
