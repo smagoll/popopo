@@ -572,6 +572,51 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slider: {fileID: 374504944}
+--- !u!1 &401584022 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1855827967259953730, guid: 4bdc72d0f874ad94397bb8c2966dce91, type: 3}
+  m_PrefabInstance: {fileID: 1855827966893991576}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &401584025 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3043164546658405356, guid: 4bdc72d0f874ad94397bb8c2966dce91, type: 3}
+  m_PrefabInstance: {fileID: 1855827966893991576}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 401584022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 530cdf3bcb903c4408aacca9c923d03f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &401584031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 401584022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28c418f3b4896b2488c2f301e94f05b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  manapool: 0
+  character: {fileID: 401584025}
+--- !u!114 &401584032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 401584022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4781d56f27eb04d49a91a800de0cbfc2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  manapool: 0
+  character: {fileID: 401584025}
+  timeInRage: 20
 --- !u!1 &462845728
 GameObject:
   m_ObjectHideFlags: 0
@@ -3678,9 +3723,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 844944646}
     - target: {fileID: 3043164546658405356, guid: 4bdc72d0f874ad94397bb8c2966dce91, type: 3}
+      propertyPath: teleport
+      value: 
+      objectReference: {fileID: 401584031}
+    - target: {fileID: 3043164546658405356, guid: 4bdc72d0f874ad94397bb8c2966dce91, type: 3}
       propertyPath: healthBar
       value: 
       objectReference: {fileID: 374504945}
+    - target: {fileID: 3043164546658405356, guid: 4bdc72d0f874ad94397bb8c2966dce91, type: 3}
+      propertyPath: nuclearSmoke
+      value: 
+      objectReference: {fileID: 401584032}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 4bdc72d0f874ad94397bb8c2966dce91, type: 3}

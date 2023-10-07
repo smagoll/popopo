@@ -21,14 +21,14 @@ public class AIWalkState : AIState
 
     public override void FrameUpdate(AIStateMachine aiState)
     {
-        var distance = character.DistanceToCloseEnemy();
+        var distance = character.GetDistanceToCloseEnemy();
         if (distance < distanceAttack)
         {
             aiState.SwitchState(aiState.idleState);
         }
         else
         {
-            character.Move(character.DirectionToCloseEnemy().x);
+            character.Move(character.GetDirectionToCloseEnemy().x);
         }
     }
 

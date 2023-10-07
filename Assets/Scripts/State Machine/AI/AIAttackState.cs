@@ -60,7 +60,7 @@ public class AIAttackState : AIState
 
     private void Attack()
     {
-        character.rb.AddForce(character.DirectionToCloseEnemy() * force, ForceMode2D.Impulse);
+        character.rb.AddForce(character.GetDirectionToCloseEnemy() * force, ForceMode2D.Impulse);
         lastClickTime = Time.time;
         numCombo++;
         character.animator.SetTrigger("attack");

@@ -3,7 +3,6 @@
 public abstract class Ability : MonoBehaviour
 {
     public float manapool;
-    public float damage;
     public Character character;
 
     private void Start()

@@ -33,8 +33,7 @@ public class Character : MonoBehaviour, IAbilities, IAttack
     public float maxHp;
     [SerializeField]
     public float maxMp;
-    [SerializeField]
-    private float damage;
+    public float damage;
 
     private float hp;
     private float mp;
@@ -80,6 +79,11 @@ public class Character : MonoBehaviour, IAbilities, IAttack
     {
         hp = maxHp;
         mp = 0f;
+        ResetStats();
+    }
+
+    public void ResetStats()
+    {
         timeStartAttack = indicators.TimeStartAttack;
         timeInStun = indicators.TimeInStun;
         attackRange = indicators.AttackRange;
@@ -117,10 +121,8 @@ public class Character : MonoBehaviour, IAbilities, IAttack
 
 
     public Rigidbody2D rb;
-    [SerializeField]
-    private float speedMove;
-    [SerializeField]
-    private float speedJump;
+    public float speedMove;
+    public float speedJump;
     [SerializeField]
     private float forcePush;
     private bool flipRight = true;
@@ -131,7 +133,7 @@ public class Character : MonoBehaviour, IAbilities, IAttack
     [SerializeField]
     private VisualEffect _hit;
 
-    public Vector3 DirectionToCloseEnemy()
+    public Vector3 GetDirectionToCloseEnemy()
     {
         FindEnemies();
         var heading = enemies.ToArray()[0].transform.position - transform.position;
@@ -139,17 +141,22 @@ public class Character : MonoBehaviour, IAbilities, IAttack
         return direction;
     }
 
-    public float DistanceToCloseEnemy()
+    public float GetDistanceToCloseEnemy()
     {
         FindEnemies();
         var heading = enemies.ToArray()[0].transform.position - transform.position;
         return heading.magnitude;
     }
-
+    
+    public GameObject GetCloseEnemy()
+    {
+        FindEnemies();
+        return enemies[0];
+    }
 
     public void FlipToEnemy()
     {
-        var direction = DirectionToCloseEnemy();
+        var direction = GetDirectionToCloseEnemy();
         if (direction.x > 0 && !flipRight)
         {
             Flip();
@@ -260,7 +267,7 @@ public class Character : MonoBehaviour, IAbilities, IAttack
             {
                 var charEnemy = enemy.GetComponent<Character>();
                 charEnemy.TakeDamage(damage);
-                charEnemy.TakePush(forcePush, DirectionToCloseEnemy());
+                charEnemy.TakePush(forcePush, GetDirectionToCloseEnemy());
                 charEnemy._hit.SendEvent("OnHit");
             }
         }

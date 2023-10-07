@@ -35,5 +35,15 @@ public class CharacterDuckState : CharacterState
         {
             character.FirstAbility();
         }
+
+        if (Input.GetKeyDown(characterState.input.adittionalAttack))
+        {
+            character.SecondAbility();
+        }
+
+        if (Input.GetKeyDown(characterState.input.skill))
+        {
+            character.Ultimate();
+        }
     }
 }

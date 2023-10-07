@@ -14,7 +14,7 @@ public class Cloud : MonoBehaviour
 
     private void Update()
     {
-        transform.position += character.DirectionToCloseEnemy() * Time.deltaTime * crowCloud.speed;
+        transform.position += character.GetDirectionToCloseEnemy() * Time.deltaTime * crowCloud.speed;
         StartCoroutine(EndAbility());
     }
 

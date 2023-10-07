@@ -65,7 +65,7 @@ public class AIStateMachine : MonoBehaviour
 
     private void CheckDistance()
     {
-        var distance = character.DistanceToCloseEnemy();
+        var distance = character.GetDistanceToCloseEnemy();
         if (distance > distanceSkill)
         {
             if (currentState != skillState)
