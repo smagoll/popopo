@@ -5,6 +5,8 @@ using UnityEngine;
 public class NuclearSmoke : Ability
 {
     [SerializeField]
+    private float scale;
+    [SerializeField]
     private float timeInRage;
 
     public override void Action()
@@ -14,10 +16,12 @@ public class NuclearSmoke : Ability
 
     private IEnumerator Rage()
     {
-        character.speedMove *= 1.3f;
-        character.damage *= 1.3f;
-        character.timeStartAttack /= 1.3f;
+        character.speedMove *= scale;
+        character.damage *= scale;
+        character.timeStartAttack /= scale;
+        character.animator.speed *= scale;
         yield return new WaitForSeconds(timeInRage);
         character.ResetStats();
+        character.animator.speed = 1f;
     }
 }

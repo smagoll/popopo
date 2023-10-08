@@ -600,7 +600,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28c418f3b4896b2488c2f301e94f05b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manapool: 0
+  manapool: 5
   character: {fileID: 401584025}
 --- !u!114 &401584032
 MonoBehaviour:
@@ -616,6 +616,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   manapool: 0
   character: {fileID: 401584025}
+  scale: 1.3
   timeInRage: 20
 --- !u!1 &462845728
 GameObject:
@@ -3734,6 +3735,10 @@ PrefabInstance:
       propertyPath: nuclearSmoke
       value: 
       objectReference: {fileID: 401584032}
+    - target: {fileID: 3043164546658405356, guid: 4bdc72d0f874ad94397bb8c2966dce91, type: 3}
+      propertyPath: stunAfterAttack
+      value: 0.7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 4bdc72d0f874ad94397bb8c2966dce91, type: 3}

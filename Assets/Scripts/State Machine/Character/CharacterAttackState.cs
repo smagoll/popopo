@@ -5,7 +5,6 @@ public class CharacterAttackState : CharacterState
     public int numCombo = 0;
     public int maxCombo = 3;
     public float lastClickTime = 0;
-    public float maxClickTime = 1f;
     private float force = 30f;
 
     public CharacterAttackState(Character character) : base(character)
@@ -25,7 +24,7 @@ public class CharacterAttackState : CharacterState
 
     public override void FrameUpdate(CharacterStateMachine characterState)
     {
-        if (Time.time - lastClickTime > 1f)
+        if (Time.time - lastClickTime > character.stunAfterAttack)
         {
             characterState.SwitchState(characterState.idleState);
         }

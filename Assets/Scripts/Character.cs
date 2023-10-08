@@ -102,10 +102,10 @@ public class Character : MonoBehaviour, IAbilities, IAttack
     #endregion
 
     #region Physics
-    [SerializeField]
     public float timeStartAttack;
     [SerializeField]
     private float timeInStun;
+    public float stunAfterAttack;
 
     [SerializeField]
     private GameObject attackObject;

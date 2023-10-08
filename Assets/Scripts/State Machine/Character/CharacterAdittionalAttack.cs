@@ -23,7 +23,7 @@ public class CharacterAdittionalAttackState : CharacterState
 
     public override void FrameUpdate(CharacterStateMachine characterState)
     {
-        if (Time.time - lastClickTime > 1f)
+        if (Time.time - lastClickTime > character.stunAfterAttack)
         {
             characterState.SwitchState(characterState.idleState);
         }
