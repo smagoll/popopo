@@ -14,23 +14,28 @@ public class CharacterAdittionalAttackState : CharacterState
     public override void EnterState(CharacterStateMachine characterState)
     {
         Attack();
+        character.isAttack = true;
     }
 
     public override void ExitState(CharacterStateMachine characterState)
     {
         numCombo = 0;
+        character.animator.SetTrigger("stopAttack");
+        character.isAttack = false;
     }
 
     public override void FrameUpdate(CharacterStateMachine characterState)
+    {
+
+    }
+
+    public override void InputUpdate(CharacterStateMachine characterState)
     {
         if (Time.time - lastClickTime > character.stunAfterAttack)
         {
             characterState.SwitchState(characterState.idleState);
         }
-    }
 
-    public override void InputUpdate(CharacterStateMachine characterState)
-    {
         if (Input.GetKeyDown(characterState.input.adittionalAttack))
         {
             if (Time.time - lastClickTime > character.timeStartAttack && numCombo < maxCombo)

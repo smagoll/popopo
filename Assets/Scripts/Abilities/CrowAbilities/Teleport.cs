@@ -10,5 +10,7 @@ public class Teleport : Ability
         var enemy = character.GetCloseEnemy();
         var directonToEnemy = character.GetDirectionToCloseEnemy();
         transform.position = enemy.transform.position + directonToEnemy;
+        character.FlipToEnemy();
+        character.OnAttack();
     }
 }

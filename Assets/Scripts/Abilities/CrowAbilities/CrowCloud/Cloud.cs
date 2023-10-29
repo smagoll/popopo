@@ -40,7 +40,7 @@ public class Cloud : MonoBehaviour
         float damageForHit = crowCloud.damage / countHit;
         for (float i = 0; i < countHit; i++)
         {
-            character.TakeDamage(damageForHit);
+            character.TakeDamageWithStun(damageForHit);
             yield return new WaitForSeconds(0.01f);
         }
     }

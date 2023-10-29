@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class AIStateMachine : MonoBehaviour
 {
-    private float distanceAttack = 3f;
-    private float distanceSkill = 7f;
 
     private float cooldownAttack = 2f;
 
@@ -16,6 +14,8 @@ public class AIStateMachine : MonoBehaviour
     public AIWalkState walkState;
     public AIAttackState attackState;
     public AISkillState skillState;
+    public AIBlockState blockState;
+    public AIStunState stunState;
 
     private void Awake()
     {
@@ -25,6 +25,8 @@ public class AIStateMachine : MonoBehaviour
         walkState = new(character);
         attackState = new(character);
         skillState = new(character);
+        blockState = new(character);
+        stunState = new(character);
 
         currentState = idleState;
     }
@@ -35,11 +37,6 @@ public class AIStateMachine : MonoBehaviour
 
     private void Update()
     {
-        if (character.isStun)
-        {
-            return;
-        }
-        CheckDistance();
         currentState.InputUpdate(this);
         currentState.FrameUpdate(this);
     }
@@ -52,45 +49,27 @@ public class AIStateMachine : MonoBehaviour
         state.EnterState(this);
     }
 
-    public void cdAttack()
+    public void CooldownAttack()
     {
         StartCoroutine(CoolDown());
     }
 
     private IEnumerator CoolDown()
     {
+        attackState.cooldown = true;
         yield return new WaitForSeconds(cooldownAttack);
         attackState.cooldown = false;
     }
 
-    private void CheckDistance()
+    public void OnHurt()
     {
-        var distance = character.GetDistanceToCloseEnemy();
-        if (distance > distanceSkill)
+        if (currentState == stunState)
         {
-            if (currentState != skillState)
-            {
-                SwitchState(skillState);
-            }
-            return;
+            stunState.startTime = Time.time;
         }
-
-        if (distance < distanceAttack)
+        else
         {
-            if (currentState != attackState)
-            {
-                SwitchState(attackState);
-            }
-            return;
-        }
-
-        if (distance > distanceAttack)
-        {
-            if (currentState != walkState)
-            {
-                SwitchState(walkState);
-            }
-            return;
-        }
+            SwitchState(stunState);
+        } 
     }
 }

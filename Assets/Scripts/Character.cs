@@ -16,11 +16,13 @@ public class Character : MonoBehaviour, IAbilities, IAttack
     #endregion
 
     public Indicators indicators;
+    public Distance distanceStates;
     private Camera _camera;
 
     private void Start()
     {
         _camera = Camera.main;
+        layerNumber = Math.Log(layerEnemy.value, 2);
         SetCharacteristics();
         InitIndicators();
         rb = GetComponent<Rigidbody2D>();
@@ -103,8 +105,7 @@ public class Character : MonoBehaviour, IAbilities, IAttack
 
     #region Physics
     public float timeStartAttack;
-    [SerializeField]
-    private float timeInStun;
+    public float timeInStun;
     public float stunAfterAttack;
 
     [SerializeField]
@@ -113,11 +114,13 @@ public class Character : MonoBehaviour, IAbilities, IAttack
     [SerializeField]
     private float attackRange;
     public LayerMask layerEnemy;
+    private double layerNumber;
     public List<GameObject> enemies;
 
     private bool isGrounded = true;
-    private bool isBlock = false;
+    public bool isBlock = false;
     public bool isStun = false;
+    public bool isAttack = false;
 
 
     public Rigidbody2D rb;
@@ -218,7 +221,7 @@ public class Character : MonoBehaviour, IAbilities, IAttack
             if (enemy.CompareTag("hero"))
             {
                 var charEnemy = enemy.GetComponent<Character>();
-                charEnemy.TakeDamage(damage);
+                charEnemy.TakeDamageWithStun(damage);
             }
         }
     }
@@ -233,12 +236,12 @@ public class Character : MonoBehaviour, IAbilities, IAttack
     {
         animator.SetTrigger("death");
         gameObject.GetComponent<BoxCollider2D>().enabled = false;
-        this.enabled = false;
+        enabled = false;
         rb.bodyType = RigidbodyType2D.Static;
         Debug.Log(gameObject.name + " dead)");
     }
 
-    public void TakeDamage(float damage) // получение урона
+    public void TakeDamageWithStun(float damage) // получение урона
     {
         if (isBlock)
         {
@@ -246,15 +249,24 @@ public class Character : MonoBehaviour, IAbilities, IAttack
         }
         else
         {
-            animator.SetTrigger("damage");
             Hp -= damage;
-            TakeStun();
+            animator.SetTrigger("damage");
             _hit.SendEvent("OnHit");
         }
+    }
+    
+    public void TakeDamage(float damage) // получение урона
+    {
+        Hp -= damage;
+        _hit.SendEvent("OnHit");
     }
 
     public void TakePush(float forcePush, Vector3 direction)
     {
+        if (isBlock)
+        {
+            return;
+        }
         rb.AddForce(direction * forcePush, ForceMode2D.Impulse);
     }
 
@@ -266,26 +278,26 @@ public class Character : MonoBehaviour, IAbilities, IAttack
             if (enemy.CompareTag("hero"))
             {
                 var charEnemy = enemy.GetComponent<Character>();
-                charEnemy.TakeDamage(damage);
+                charEnemy.TakeDamageWithStun(damage);
                 charEnemy.TakePush(forcePush, GetDirectionToCloseEnemy());
                 charEnemy._hit.SendEvent("OnHit");
             }
         }
     }
 
-    public void OnBlock()
-    {
-        isBlock = true;
-    }
-
-    public void ExitBlock()
-    {
-        isBlock = false;
-    }
-
     public void TakeStun()
     {
         StartCoroutine(Stun());
+    }
+
+    public void EnterStun()
+    {
+        isStun = true;
+    }
+
+    public void ExitStun()
+    {
+        isStun = false;
     }
 
     private IEnumerator Stun() // оглушение персонажа
@@ -298,7 +310,6 @@ public class Character : MonoBehaviour, IAbilities, IAttack
     private void FindEnemies()
     {
         enemies.Clear();
-        var layerNumber = Math.Log(layerEnemy.value, 2);
         var heroes = GameObject.FindGameObjectsWithTag("hero");
         foreach (var hero in heroes)
         {
@@ -322,6 +333,11 @@ public class Character : MonoBehaviour, IAbilities, IAttack
     }
 
     public virtual void Ultimate()
+    {
+        throw new NotImplementedException();
+    }
+
+    public virtual void UseAbilities()
     {
         throw new NotImplementedException();
     }

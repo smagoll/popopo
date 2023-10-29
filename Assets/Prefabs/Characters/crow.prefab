@@ -1,5 +1,106 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &774489672
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 774489673}
+  - component: {fileID: 774489675}
+  - component: {fileID: 774489674}
+  m_Layer: 6
+  m_Name: impact
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &774489673
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 774489672}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.12999995, y: -0.11999999, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1855827967259953732}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!111 &774489675
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 774489672}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 9b0d944cf705b4f439539b26a727eb8c, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 9b0d944cf705b4f439539b26a727eb8c, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
+--- !u!212 &774489674
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 774489672}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 0
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
 --- !u!1 &883750201
 GameObject:
   m_ObjectHideFlags: 0
@@ -57,7 +158,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1189163942}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.00309, y: 0.00054, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.038658656, y: 0.28068498, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -268,6 +369,8 @@ GameObject:
   - component: {fileID: 3043164546658405356}
   - component: {fileID: 707816678}
   - component: {fileID: 1855827966893991585}
+  - component: {fileID: 401584031}
+  - component: {fileID: 401584032}
   m_Layer: 6
   m_Name: crow
   m_TagString: hero
@@ -291,6 +394,7 @@ Transform:
   - {fileID: 1189163943}
   - {fileID: 1531929295}
   - {fileID: 883750202}
+  - {fileID: 774489673}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -410,7 +514,7 @@ Rigidbody2D:
   m_GravityScale: 20
   m_Material: {fileID: 0}
   m_Interpolate: 0
-  m_SleepingMode: 1
+  m_SleepingMode: 0
   m_CollisionDetection: 0
   m_Constraints: 4
 --- !u!114 &3043164546658405356
@@ -428,18 +532,22 @@ MonoBehaviour:
   healthBar: {fileID: 0}
   manaBar: {fileID: 0}
   indicators: {fileID: 11400000, guid: 57e42c1f05281f1419c4af2ae1e6cda0, type: 2}
+  distanceStates: {fileID: 11400000, guid: e5718fffb1f74ab478be655c47fe233a, type: 2}
   maxHp: 100
   maxMp: 50
-  damage: 10
+  damage: 5
   timeStartAttack: 0
   timeInStun: 0
+  stunAfterAttack: 1
   attackObject: {fileID: 7740896888461126271}
   attackRange: 0
   layerEnemy:
     serializedVersion: 2
     m_Bits: 128
   enemies: []
+  isBlock: 0
   isStun: 0
+  isAttack: 0
   rb: {fileID: 0}
   speedMove: 0
   speedJump: 0
@@ -447,6 +555,8 @@ MonoBehaviour:
   animator: {fileID: 1855827967259953733}
   _hit: {fileID: 1531929294}
   crowcloud: {fileID: 1855827966893991585}
+  teleport: {fileID: 401584031}
+  nuclearSmoke: {fileID: 401584032}
 --- !u!114 &707816678
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -473,11 +583,41 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   manapool: 0
-  damage: 20
   character: {fileID: 3043164546658405356}
   prefCrowcloud: {fileID: 6367248497065364923, guid: e22709774e97d1c43845580dea2b8c47, type: 3}
   speed: 10
   spawnCrowcloud: {fileID: 883750202}
+  damage: 20
+--- !u!114 &401584031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1855827967259953730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28c418f3b4896b2488c2f301e94f05b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  manapool: 5
+  character: {fileID: 3043164546658405356}
+--- !u!114 &401584032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1855827967259953730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4781d56f27eb04d49a91a800de0cbfc2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  manapool: 0
+  character: {fileID: 3043164546658405356}
+  scale: 1.3
+  timeInRage: 20
 --- !u!1 &7740896888461126271
 GameObject:
   m_ObjectHideFlags: 0

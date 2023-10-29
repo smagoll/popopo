@@ -10,12 +10,13 @@ public class CharacterBlockState : CharacterState
     public override void EnterState(CharacterStateMachine characterState)
     {
         character.animator.SetTrigger("block");
+        character.isBlock = true;
     }
 
     public override void ExitState(CharacterStateMachine characterState)
     {
         character.animator.SetTrigger("block");
-        character.ExitBlock();
+        character.isBlock = false;
     }
 
     public override void FrameUpdate(CharacterStateMachine characterState)

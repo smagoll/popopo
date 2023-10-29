@@ -1,0 +1,4 @@
+repository "popopo@daniilchernov1994@cloud"
+  path "/"
+    br "/main"
+    co "/main"

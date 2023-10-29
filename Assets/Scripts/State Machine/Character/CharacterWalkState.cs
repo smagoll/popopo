@@ -8,7 +8,6 @@ public class CharacterWalkState : CharacterState
 
     public override void EnterState(CharacterStateMachine characterState)
     {
-        Debug.Log("mov");
         character.animator.SetBool("isRunning", true);
     }
 

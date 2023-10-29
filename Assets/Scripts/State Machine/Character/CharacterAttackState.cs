@@ -14,26 +14,27 @@ public class CharacterAttackState : CharacterState
     public override void EnterState(CharacterStateMachine characterState)
     {
         Attack();
+        character.isAttack = true;
     }
 
     public override void ExitState(CharacterStateMachine characterState)
     {
         numCombo = 0;
         character.animator.SetTrigger("stopAttack");
+        character.isAttack = false;
     }
 
     public override void FrameUpdate(CharacterStateMachine characterState)
     {
-        if (Time.time - lastClickTime > character.stunAfterAttack)
-        {
-            characterState.SwitchState(characterState.idleState);
-        }
+
     }
 
     public override void InputUpdate(CharacterStateMachine characterState)
     {
-        if (character.isStun)
+
+        if (Time.time - lastClickTime > character.stunAfterAttack)
         {
+            characterState.SwitchState(characterState.idleState);
             return;
         }
 
@@ -42,6 +43,7 @@ public class CharacterAttackState : CharacterState
             if (Time.time - lastClickTime > character.timeStartAttack && numCombo < maxCombo)
             {
                 Attack();
+                return;
             }
         }
     }

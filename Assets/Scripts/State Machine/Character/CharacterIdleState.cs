@@ -9,7 +9,7 @@ public class CharacterIdleState : CharacterState
 
     public override void EnterState(CharacterStateMachine characterState)
     {
-        Debug.Log("idle");
+
     }
 
     public override void ExitState(CharacterStateMachine characterState)

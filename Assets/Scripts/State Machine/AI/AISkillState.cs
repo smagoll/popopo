@@ -28,9 +28,18 @@ public class AISkillState : AIState
 
     public override void InputUpdate(AIStateMachine aiState)
     {
+        var distance = character.GetDistanceToCloseEnemy();
+
+        if (distance < character.distanceStates.distanceSkill)
+        {
+            aiState.SwitchState(aiState.idleState);
+            return;
+        }
+
         if (character.Mp == character.maxMp)
         {
             aiState.SwitchState(aiState.idleState);
+            return;
         }
     }
 

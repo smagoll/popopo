@@ -5,9 +5,7 @@ public class AIWalkState : AIState
 {
     private float distanceAttack = 3f;
 
-    public AIWalkState(Character character) : base(character)
-    {
-    }
+    public AIWalkState(Character character) : base(character) { }
 
     public override void EnterState(AIStateMachine aiState)
     {
@@ -21,20 +19,32 @@ public class AIWalkState : AIState
 
     public override void FrameUpdate(AIStateMachine aiState)
     {
-        var distance = character.GetDistanceToCloseEnemy();
-        if (distance < distanceAttack)
-        {
-            aiState.SwitchState(aiState.idleState);
-        }
-        else
-        {
-            character.Move(character.GetDirectionToCloseEnemy().x);
-        }
+
     }
 
     public override void InputUpdate(AIStateMachine aiState)
     {
-        
+        var distance = character.GetDistanceToCloseEnemy();
+        var enemy = character.GetCloseEnemy();
+
+        character.UseAbilities();
+
+        if (enemy.GetComponent<Character>().isAttack && distance < character.distanceStates.distanceBlock)
+        {
+            aiState.SwitchState(aiState.blockState);
+            return;
+        }
+
+        if (distance < distanceAttack)
+        {
+            aiState.SwitchState(aiState.idleState);
+            return;
+        }
+        else
+        {
+            character.Move(character.GetDirectionToCloseEnemy().x);
+            return;
+        }
     }
 }
 

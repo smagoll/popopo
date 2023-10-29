@@ -10,20 +10,18 @@ public class AIAttackState : AIState
     public float lastClickTime = 0;
     private float force = 30f;
 
-    public AIAttackState(Character character) : base(character)
-    {
-    }
+    public AIAttackState(Character character) : base(character) { }
 
     public override void EnterState(AIStateMachine aiState)
     {
         if (cooldown)
         {
             aiState.SwitchState(aiState.idleState);
-            Debug.Log("cd");
         }
         else
         {
             Attack();
+            character.isAttack = true;
         }
     }
 
@@ -31,30 +29,30 @@ public class AIAttackState : AIState
     {
         if (numCombo > 0)
         {
-            cooldown = true;
-            aiState.cdAttack();
+            character.animator.SetTrigger("stopAttack");
+            aiState.CooldownAttack();
+            numCombo = 0;
+            character.isAttack = false;
         }
-        numCombo = 0;
     }
 
     public override void FrameUpdate(AIStateMachine aiState)
     {
-        if (Time.time - lastClickTime > 1f)
-        {
-            aiState.SwitchState(aiState.idleState);
-        }
+
     }
 
     public override void InputUpdate(AIStateMachine aiState)
     {
-        if (character.isStun)
+        if (Time.time - lastClickTime > character.timeStartAttack && numCombo < maxCombo)
         {
+            Attack();
             return;
         }
 
-        if (Time.time - lastClickTime > character.timeStartAttack && numCombo <= maxCombo)
+        if (Time.time - lastClickTime > character.stunAfterAttack)
         {
-            Attack();
+            aiState.SwitchState(aiState.idleState);
+            return;
         }
     }
 
