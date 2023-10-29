@@ -12,6 +12,7 @@ public class CharacterStateMachine : MonoBehaviour
     public CharacterBlockState blockState;
     public CharacterDuckState duckState;
     public CharacterSkillState skillState;
+    public CharacterStunState stunState;
 
     public InputAsset input;
 
@@ -27,6 +28,7 @@ public class CharacterStateMachine : MonoBehaviour
         blockState = new(character);
         duckState = new(character);
         skillState = new(character);
+        stunState = new(character);
 
         currentState = idleState;
     }
@@ -48,5 +50,15 @@ public class CharacterStateMachine : MonoBehaviour
         character.FlipToEnemy();
         currentState = state;
         state.EnterState(this);
+    }
+
+    public void OnHurt()
+    {
+        if (currentState == stunState)
+        {
+            stunState.startTime = Time.time;
+        }
+        else
+            SwitchState(stunState);
     }
 }

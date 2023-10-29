@@ -9,11 +9,6 @@ public class CharacterDuckState : CharacterState
     {
     }
 
-    public override void AnimationTriggerEvent(CharacterStateMachine characterState)
-    {
-        throw new System.NotImplementedException();
-    }
-
     public override void EnterState(CharacterStateMachine characterState)
     {
         character.animator.SetBool("isDuck", true);
@@ -34,6 +29,21 @@ public class CharacterDuckState : CharacterState
         if (Input.GetKeyUp(characterState.input.down))
         {
             characterState.SwitchState(characterState.idleState);
+        }
+
+        if (Input.GetKeyDown(characterState.input.attack))
+        {
+            character.FirstAbility();
+        }
+
+        if (Input.GetKeyDown(characterState.input.adittionalAttack))
+        {
+            character.SecondAbility();
+        }
+
+        if (Input.GetKeyDown(characterState.input.skill))
+        {
+            character.Ultimate();
         }
     }
 }

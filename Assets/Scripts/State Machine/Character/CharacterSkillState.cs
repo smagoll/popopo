@@ -7,11 +7,6 @@ public class CharacterSkillState : CharacterState
 
     public CharacterSkillState(Character character) : base(character) { }
 
-    public override void AnimationTriggerEvent(CharacterStateMachine characterState)
-    {
-        throw new System.NotImplementedException();
-    }
-
     public override void EnterState(CharacterStateMachine characterState)
     {
         character.animator.SetTrigger("skill");

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class Character : MonoBehaviour, IAbilities, IAttack
 {
@@ -15,11 +16,13 @@ public class Character : MonoBehaviour, IAbilities, IAttack
     #endregion
 
     public Indicators indicators;
+    public Distance distanceStates;
     private Camera _camera;
 
     private void Start()
     {
         _camera = Camera.main;
+        layerNumber = Math.Log(layerEnemy.value, 2);
         SetCharacteristics();
         InitIndicators();
         rb = GetComponent<Rigidbody2D>();
@@ -29,11 +32,10 @@ public class Character : MonoBehaviour, IAbilities, IAttack
     #region Characteristics
 
     [SerializeField]
-    private float maxHp;
+    public float maxHp;
     [SerializeField]
-    private float maxMp;
-    [SerializeField]
-    private float damage;
+    public float maxMp;
+    public float damage;
 
     private float hp;
     private float mp;
@@ -79,6 +81,11 @@ public class Character : MonoBehaviour, IAbilities, IAttack
     {
         hp = maxHp;
         mp = 0f;
+        ResetStats();
+    }
+
+    public void ResetStats()
+    {
         timeStartAttack = indicators.TimeStartAttack;
         timeInStun = indicators.TimeInStun;
         attackRange = indicators.AttackRange;
@@ -97,47 +104,62 @@ public class Character : MonoBehaviour, IAbilities, IAttack
     #endregion
 
     #region Physics
-    private float timeCurrentAttack = 0f;
-    [SerializeField]
     public float timeStartAttack;
-    [SerializeField]
-    private float timeInStun;
+    public float timeInStun;
+    public float stunAfterAttack;
 
     [SerializeField]
     private GameObject attackObject;
 
     [SerializeField]
     private float attackRange;
-    [SerializeField]
-    private LayerMask layerEnemy;
+    public LayerMask layerEnemy;
+    private double layerNumber;
     public List<GameObject> enemies;
 
     private bool isGrounded = true;
-    private bool isBlock = false;
+    public bool isBlock = false;
     public bool isStun = false;
+    public bool isAttack = false;
 
 
     public Rigidbody2D rb;
+    public float speedMove;
+    public float speedJump;
     [SerializeField]
-    private float speedMove;
-    [SerializeField]
-    private float speedJump;
+    private float forcePush;
     private bool flipRight = true;
 
     
     public Animator animator;
 
-    public Vector3 DirectionToCloseEnemy()
+    [SerializeField]
+    private VisualEffect _hit;
+
+    public Vector3 GetDirectionToCloseEnemy()
     {
+        FindEnemies();
         var heading = enemies.ToArray()[0].transform.position - transform.position;
         var direction = heading / heading.magnitude;
         return direction;
     }
 
-    public void FlipToEnemy()
+    public float GetDistanceToCloseEnemy()
     {
         FindEnemies();
-        var direction = DirectionToCloseEnemy();
+        var heading = enemies.ToArray()[0].transform.position - transform.position;
+        return heading.magnitude;
+    }
+    
+    public GameObject GetCloseEnemy()
+    {
+        FindEnemies();
+        return enemies[0];
+    }
+
+    public void FlipToEnemy()
+    {
+        var direction = GetDirectionToCloseEnemy();
         if (direction.x > 0 && !flipRight)
         {
             Flip();
@@ -196,7 +218,11 @@ public class Character : MonoBehaviour, IAbilities, IAttack
         Collider2D[] enemies = Physics2D.OverlapCircleAll(attackObject.transform.position, attackRange, layerEnemy);
         foreach (var enemy in enemies)
         {
-            enemy.GetComponent<Character>().TakeDamage(damage);
+            if (enemy.CompareTag("hero"))
+            {
+                var charEnemy = enemy.GetComponent<Character>();
+                charEnemy.TakeDamageWithStun(damage);
+            }
         }
     }
 
@@ -210,12 +236,12 @@ public class Character : MonoBehaviour, IAbilities, IAttack
     {
         animator.SetTrigger("death");
         gameObject.GetComponent<BoxCollider2D>().enabled = false;
-        this.enabled = false;
+        enabled = false;
         rb.bodyType = RigidbodyType2D.Static;
         Debug.Log(gameObject.name + " dead)");
     }
 
-    public void TakeDamage(float damage) // получение урона
+    public void TakeDamageWithStun(float damage) // получение урона
     {
         if (isBlock)
         {
@@ -223,20 +249,55 @@ public class Character : MonoBehaviour, IAbilities, IAttack
         }
         else
         {
-            animator.SetTrigger("damage");
             Hp -= damage;
-            StartCoroutine(Stun());
+            animator.SetTrigger("damage");
+            _hit.SendEvent("OnHit");
+        }
+    }
+    
+    public void TakeDamage(float damage) // получение урона
+    {
+        Hp -= damage;
+        _hit.SendEvent("OnHit");
+    }
+
+    public void TakePush(float forcePush, Vector3 direction)
+    {
+        if (isBlock)
+        {
+            return;
+        }
+        rb.AddForce(direction * forcePush, ForceMode2D.Impulse);
+    }
+
+    public void OnAttackWithPush()
+    {
+        Collider2D[] enemies = Physics2D.OverlapCircleAll(attackObject.transform.position, attackRange, layerEnemy);
+        foreach (var enemy in enemies)
+        {
+            if (enemy.CompareTag("hero"))
+            {
+                var charEnemy = enemy.GetComponent<Character>();
+                charEnemy.TakeDamageWithStun(damage);
+                charEnemy.TakePush(forcePush, GetDirectionToCloseEnemy());
+                charEnemy._hit.SendEvent("OnHit");
+            }
         }
     }
 
-    public void OnBlock()
+    public void TakeStun()
     {
-        isBlock = true;
+        StartCoroutine(Stun());
     }
 
-    public void ExitBlock()
+    public void EnterStun()
     {
-        isBlock = false;
+        isStun = true;
+    }
+
+    public void ExitStun()
+    {
+        isStun = false;
     }
 
     private IEnumerator Stun() // оглушение персонажа
@@ -248,7 +309,7 @@ public class Character : MonoBehaviour, IAbilities, IAttack
 
     private void FindEnemies()
     {
-        var layerNumber = Math.Log(layerEnemy.value, 2);
+        enemies.Clear();
         var heroes = GameObject.FindGameObjectsWithTag("hero");
         foreach (var hero in heroes)
         {
@@ -272,6 +333,11 @@ public class Character : MonoBehaviour, IAbilities, IAttack
     }
 
     public virtual void Ultimate()
+    {
+        throw new NotImplementedException();
+    }
+
+    public virtual void UseAbilities()
     {
         throw new NotImplementedException();
     }

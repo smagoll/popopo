@@ -6,11 +6,6 @@ public class CharacterJumpState : CharacterState
     {
     }
 
-    public override void AnimationTriggerEvent(CharacterStateMachine characterState)
-    {
-        throw new NotImplementedException();
-    }
-
     public override void EnterState(CharacterStateMachine characterState)
     {
         character.Jump();

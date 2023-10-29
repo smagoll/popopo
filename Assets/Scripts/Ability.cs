@@ -1,35 +1,18 @@
 ﻿using UnityEngine;
 
-public abstract class Ability
+public abstract class Ability : MonoBehaviour
 {
-    private bool isAbility = false; // активна ли способность
-    private int manapool;
-    private int damage;
+    public float manapool;
     public Character character;
 
-    public Ability(Character character)
+    private void Start()
     {
-        this.character = character;
+        character = gameObject.GetComponent<Character>();
     }
 
-    public void Start()
+    public void Launch()
     {
-        if (!isAbility && character.Mp > manapool)
-        {
-            character.Mp -= manapool;
-            Action();
-            isAbility = !isAbility;
-            Debug.Log(isAbility);
-            End();
-        }
-    }
-
-    private void End()
-    {
-        if (isAbility)
-        {
-            isAbility = !isAbility;
-        }
+        Action();
     }
 
     public abstract void Action();
