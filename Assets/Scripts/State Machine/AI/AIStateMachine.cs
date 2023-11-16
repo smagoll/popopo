@@ -37,6 +37,11 @@ public class AIStateMachine : MonoBehaviour
 
     private void Update()
     {
+        if (character.isDead || character.isStun || character.useAbility)
+        {
+            return;
+        }
+
         currentState.InputUpdate(this);
         currentState.FrameUpdate(this);
     }

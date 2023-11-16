@@ -10,13 +10,13 @@ public class AIStunState : AIState
 
     public override void EnterState(AIStateMachine aiState)
     {
-        Debug.Log("enter stun");
+        character.isStun = true;
         startTime = Time.time;
     }
 
     public override void ExitState(AIStateMachine aiState)
     {
-        Debug.Log("exit stun");
+        character.isStun = false;
     }
 
     public override void FrameUpdate(AIStateMachine aiState)

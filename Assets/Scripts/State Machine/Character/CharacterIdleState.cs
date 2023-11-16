@@ -27,36 +27,45 @@ public class CharacterIdleState : CharacterState
         if (Math.Abs(Input.GetAxis("Horizontal")) > 0)
         {
             characterState.SwitchState(characterState.walkState);
+            return;
         }
 
         if ((Input.GetKeyDown(characterState.input.adittionalAttack)))
         {
-            characterState.SwitchState(characterState.adittionalAttackState);
+            characterState.attackState.isFirstAttack = false;
+            characterState.SwitchState(characterState.attackState);
+            return;
         }
-        
+
         if ((Input.GetKeyDown(characterState.input.attack)))
         {
+            characterState.attackState.isFirstAttack = true;
             characterState.SwitchState(characterState.attackState);
+            return;
         }
 
         if (Input.GetKeyDown(characterState.input.up))
         {
             characterState.SwitchState(characterState.jumpState);
+            return;
         }
 
-        if (Input.GetKeyDown(characterState.input.block))
+        if (Input.GetKey(characterState.input.block))
         {
             characterState.SwitchState(characterState.blockState);
+            return;
         }
 
-        if (Input.GetKeyDown(characterState.input.down))
+        if (Input.GetKey(characterState.input.down))
         {
             characterState.SwitchState(characterState.duckState);
+            return;
         }
         
-        if (Input.GetKeyDown(characterState.input.skill))
+        if (Input.GetKey(characterState.input.skill))
         {
             characterState.SwitchState(characterState.skillState);
+            return;
         }
     }
 }

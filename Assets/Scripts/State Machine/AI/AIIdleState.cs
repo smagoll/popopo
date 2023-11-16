@@ -5,6 +5,7 @@ public class AIIdleState : AIState
 {
     public AIIdleState(Character character) : base(character)
     {
+        
     }
 
     public override void EnterState(AIStateMachine aiState)
@@ -27,7 +28,7 @@ public class AIIdleState : AIState
         var distance = character.GetDistanceToCloseEnemy();
         var enemy = character.GetCloseEnemy();
 
-        character.UseAbilities();
+        character.abilities.UseAbilities(distance);
 
         if (enemy.GetComponent<Character>().isAttack && distance < character.distanceStates.distanceBlock)
         {

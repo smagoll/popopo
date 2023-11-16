@@ -4,8 +4,8 @@ public class CharacterAttackState : CharacterState
 {
     public int numCombo = 0;
     public int maxCombo = 3;
-    public float lastClickTime = 0;
     private float force = 30f;
+    public bool isFirstAttack = true; //первая обычная атака
 
     public CharacterAttackState(Character character) : base(character)
     {
@@ -13,7 +13,10 @@ public class CharacterAttackState : CharacterState
 
     public override void EnterState(CharacterStateMachine characterState)
     {
-        Attack();
+        if (isFirstAttack)
+            Attack();
+        else
+            AdAttack();
         character.isAttack = true;
     }
 
@@ -32,7 +35,7 @@ public class CharacterAttackState : CharacterState
     public override void InputUpdate(CharacterStateMachine characterState)
     {
 
-        if (Time.time - lastClickTime > character.stunAfterAttack)
+        if (character.animator.GetCurrentAnimatorStateInfo(0).normalizedTime > character.stunAfterAttack)
         {
             characterState.SwitchState(characterState.idleState);
             return;
@@ -40,9 +43,18 @@ public class CharacterAttackState : CharacterState
 
         if (Input.GetKeyDown(characterState.input.attack))
         {
-            if (Time.time - lastClickTime > character.timeStartAttack && numCombo < maxCombo)
+            if (character.animator.GetCurrentAnimatorStateInfo(0).normalizedTime > character.timeStartAttack && numCombo < maxCombo)
             {
                 Attack();
+                return;
+            }
+        }
+
+        if (Input.GetKeyDown(characterState.input.adittionalAttack))
+        {
+            if (character.animator.GetCurrentAnimatorStateInfo(0).normalizedTime > character.timeStartAttack && numCombo < maxCombo)
+            {
+                AdAttack();
                 return;
             }
         }
@@ -51,9 +63,15 @@ public class CharacterAttackState : CharacterState
     private void Attack()
     {
         character.rb.AddForce(character.GetDirectionToCloseEnemy() * force, ForceMode2D.Impulse);
-        lastClickTime = Time.time;
         numCombo++;
         character.animator.SetTrigger("attack");
+    }
+
+    private void AdAttack()
+    {
+        character.rb.AddForce(character.GetDirectionToCloseEnemy() * force, ForceMode2D.Impulse);
+        numCombo++;
+        character.animator.SetTrigger("ad_attack");
     }
 }
 

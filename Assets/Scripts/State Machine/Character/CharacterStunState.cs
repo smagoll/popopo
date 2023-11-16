@@ -10,6 +10,7 @@ public class CharacterStunState : CharacterState
 
     public override void EnterState(CharacterStateMachine characterState)
     {
+        
         startTime = Time.time;
     }
 

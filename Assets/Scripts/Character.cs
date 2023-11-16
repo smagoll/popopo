@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.VFX;
 
-public class Character : MonoBehaviour, IAbilities, IAttack
+public class Character : MonoBehaviour
 {
     #region UI
 
@@ -23,7 +23,7 @@ public class Character : MonoBehaviour, IAbilities, IAttack
     {
         _camera = Camera.main;
         layerNumber = Math.Log(layerEnemy.value, 2);
-        SetCharacteristics();
+        SetBars();
         InitIndicators();
         rb = GetComponent<Rigidbody2D>();
         FlipToEnemy();
@@ -88,15 +88,14 @@ public class Character : MonoBehaviour, IAbilities, IAttack
     {
         timeStartAttack = indicators.TimeStartAttack;
         timeInStun = indicators.TimeInStun;
+        stunAfterAttack = indicators.StunAfterAttack;
         attackRange = indicators.AttackRange;
         speedMove = indicators.SpeedMove;
         speedJump = indicators.SpeedJump;
     }
 
-    public void SetCharacteristics()
+    public void SetBars()
     {
-        Hp = maxHp;
-        Mp = maxMp;
         healthBar.SetMaxHealth(maxHp);
         manaBar.SetMaxMana(maxMp);
     }
@@ -108,19 +107,20 @@ public class Character : MonoBehaviour, IAbilities, IAttack
     public float timeInStun;
     public float stunAfterAttack;
 
-    [SerializeField]
-    private GameObject attackObject;
+    public GameObject attackObject;
 
     [SerializeField]
     private float attackRange;
     public LayerMask layerEnemy;
-    private double layerNumber;
+    public double layerNumber;
     public List<GameObject> enemies;
 
     private bool isGrounded = true;
     public bool isBlock = false;
     public bool isStun = false;
     public bool isAttack = false;
+    public bool isDead = false;
+    public bool useAbility = false; // используется ли способность
 
 
     public Rigidbody2D rb;
@@ -132,7 +132,7 @@ public class Character : MonoBehaviour, IAbilities, IAttack
 
     
     public Animator animator;
-
+    public Abilities abilities;
     [SerializeField]
     private VisualEffect _hit;
 
@@ -213,7 +213,7 @@ public class Character : MonoBehaviour, IAbilities, IAttack
         }
     }
 
-    public void OnAttack()
+    public void OnAttack() //атака
     {
         Collider2D[] enemies = Physics2D.OverlapCircleAll(attackObject.transform.position, attackRange, layerEnemy);
         foreach (var enemy in enemies)
@@ -222,6 +222,7 @@ public class Character : MonoBehaviour, IAbilities, IAttack
             {
                 var charEnemy = enemy.GetComponent<Character>();
                 charEnemy.TakeDamageWithStun(damage);
+                Mp += damage / 3;
             }
         }
     }
@@ -234,40 +235,34 @@ public class Character : MonoBehaviour, IAbilities, IAttack
 
     private void Death() // смерть
     {
-        animator.SetTrigger("death");
+        isDead = true;
+        animator.SetBool("death", true);
         gameObject.GetComponent<BoxCollider2D>().enabled = false;
         enabled = false;
         rb.bodyType = RigidbodyType2D.Static;
-        Debug.Log(gameObject.name + " dead)");
     }
 
     public void TakeDamageWithStun(float damage) // получение урона
     {
         if (isBlock)
         {
-            Hp -= damage/3;
+            Hp -= damage / 3;
+            Mp += damage / 2;
         }
         else
         {
-            Hp -= damage;
             animator.SetTrigger("damage");
             _hit.SendEvent("OnHit");
+            Hp -= damage;
+            Mp += damage / 2;
         }
     }
     
     public void TakeDamage(float damage) // получение урона
     {
         Hp -= damage;
+        Mp += damage / 2;
         _hit.SendEvent("OnHit");
-    }
-
-    public void TakePush(float forcePush, Vector3 direction)
-    {
-        if (isBlock)
-        {
-            return;
-        }
-        rb.AddForce(direction * forcePush, ForceMode2D.Impulse);
     }
 
     public void OnAttackWithPush()
@@ -279,15 +274,10 @@ public class Character : MonoBehaviour, IAbilities, IAttack
             {
                 var charEnemy = enemy.GetComponent<Character>();
                 charEnemy.TakeDamageWithStun(damage);
-                charEnemy.TakePush(forcePush, GetDirectionToCloseEnemy());
-                charEnemy._hit.SendEvent("OnHit");
+                charEnemy.rb.AddForce(GetDirectionToCloseEnemy() * forcePush, ForceMode2D.Impulse);
+                Mp += damage / 3;
             }
         }
-    }
-
-    public void TakeStun()
-    {
-        StartCoroutine(Stun());
     }
 
     public void EnterStun()
@@ -300,14 +290,19 @@ public class Character : MonoBehaviour, IAbilities, IAttack
         isStun = false;
     }
 
-    private IEnumerator Stun() // оглушение персонажа
+    public void TakeStun(float time)
     {
-        isStun = true;
-        yield return new WaitForSeconds(timeInStun);
-        isStun = false;
+        StartCoroutine(Stun(time));
     }
 
-    private void FindEnemies()
+    private IEnumerator Stun(float time)
+    {
+        EnterStun();
+        yield return new WaitForSeconds(time);
+        ExitStun();
+    }
+
+    private void FindEnemies() // поиск врагов
     {
         enemies.Clear();
         var heroes = GameObject.FindGameObjectsWithTag("hero");
@@ -321,24 +316,4 @@ public class Character : MonoBehaviour, IAbilities, IAttack
     }
 
     #endregion
-
-    public virtual void FirstAbility()
-    {
-        throw new NotImplementedException();
-    }
-
-    public virtual void SecondAbility()
-    {
-        throw new NotImplementedException();
-    }
-
-    public virtual void Ultimate()
-    {
-        throw new NotImplementedException();
-    }
-
-    public virtual void UseAbilities()
-    {
-        throw new NotImplementedException();
-    }
 }

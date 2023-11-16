@@ -13,4 +13,12 @@ public class Teleport : Ability
         character.FlipToEnemy();
         character.OnAttack();
     }
+
+    public override void UseAbility(float distance)
+    {
+        if (distance > distanceUse && isActive == false)
+        {
+            Launch();
+        }
+    }
 }

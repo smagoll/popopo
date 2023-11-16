@@ -367,6 +367,7 @@ GameObject:
   - component: {fileID: 1855827967259953784}
   - component: {fileID: 1855827967259953735}
   - component: {fileID: 3043164546658405356}
+  - component: {fileID: 4019564277902832513}
   - component: {fileID: 707816678}
   - component: {fileID: 1855827966893991585}
   - component: {fileID: 401584031}
@@ -538,25 +539,41 @@ MonoBehaviour:
   damage: 5
   timeStartAttack: 0
   timeInStun: 0
-  stunAfterAttack: 1
+  stunAfterAttack: 0.8
   attackObject: {fileID: 7740896888461126271}
   attackRange: 0
   layerEnemy:
     serializedVersion: 2
     m_Bits: 128
+  layerNumber: 0
   enemies: []
   isBlock: 0
   isStun: 0
   isAttack: 0
+  isDead: 0
+  useAbility: 0
   rb: {fileID: 0}
   speedMove: 0
   speedJump: 0
   forcePush: 100
   animator: {fileID: 1855827967259953733}
+  abilities: {fileID: 0}
   _hit: {fileID: 1531929294}
-  crowcloud: {fileID: 1855827966893991585}
-  teleport: {fileID: 401584031}
-  nuclearSmoke: {fileID: 401584032}
+--- !u!114 &4019564277902832513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1855827967259953730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a585960f0b22d104ab3af8b639001e0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  firstAbility: {fileID: 0}
+  secondAbility: {fileID: 401584031}
+  ultimate: {fileID: 401584032}
 --- !u!114 &707816678
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -582,8 +599,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bd30e8a6a8b32a42b11430aa85553a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manapool: 0
+  manapool: 10
   character: {fileID: 3043164546658405356}
+  cooldown: 3
+  isActive: 0
+  distanceUse: 0
   prefCrowcloud: {fileID: 6367248497065364923, guid: e22709774e97d1c43845580dea2b8c47, type: 3}
   speed: 10
   spawnCrowcloud: {fileID: 883750202}
@@ -602,6 +622,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   manapool: 5
   character: {fileID: 3043164546658405356}
+  cooldown: 2
+  isActive: 0
+  distanceUse: 0
 --- !u!114 &401584032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -614,8 +637,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4781d56f27eb04d49a91a800de0cbfc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manapool: 0
+  manapool: 50
   character: {fileID: 3043164546658405356}
+  cooldown: 0
+  isActive: 0
+  distanceUse: 0
   scale: 1.3
   timeInRage: 20
 --- !u!1 &7740896888461126271

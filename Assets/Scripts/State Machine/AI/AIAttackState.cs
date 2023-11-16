@@ -9,6 +9,7 @@ public class AIAttackState : AIState
     public int maxCombo = 3;
     public float lastClickTime = 0;
     private float force = 30f;
+    private Vector2 direction;
 
     public AIAttackState(Character character) : base(character) { }
 
@@ -21,6 +22,7 @@ public class AIAttackState : AIState
         else
         {
             Attack();
+            direction = new Vector2(character.GetDirectionToCloseEnemy().x, 0);
             character.isAttack = true;
         }
     }
@@ -58,9 +60,17 @@ public class AIAttackState : AIState
 
     private void Attack()
     {
-        character.rb.AddForce(character.GetDirectionToCloseEnemy() * force, ForceMode2D.Impulse);
+        character.rb.AddForce(direction * force, ForceMode2D.Impulse);
         lastClickTime = Time.time;
         numCombo++;
-        character.animator.SetTrigger("attack");
+        var randomNumber = Random.Range(0, 2);
+        if (randomNumber == 0)
+        {
+            character.animator.SetTrigger("attack");
+        }
+        else
+        {
+            character.animator.SetTrigger("ad_attack");
+        }
     }
 }

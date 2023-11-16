@@ -27,7 +27,7 @@ public class AIWalkState : AIState
         var distance = character.GetDistanceToCloseEnemy();
         var enemy = character.GetCloseEnemy();
 
-        character.UseAbilities();
+        character.abilities.UseAbilities(distance);
 
         if (enemy.GetComponent<Character>().isAttack && distance < character.distanceStates.distanceBlock)
         {

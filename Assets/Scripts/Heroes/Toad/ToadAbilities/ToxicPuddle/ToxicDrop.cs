@@ -13,7 +13,8 @@ public class ToxicDrop : MonoBehaviour
     void Start()
     {
         rb = gameObject.GetComponent<Rigidbody2D>();
-        rb.AddForce(Vector2.up, ForceMode2D.Impulse);
+        var directionPush = new Vector2(controller.character.GetDirectionToCloseEnemy().x * 0.3f, 1f);
+        rb.AddForce(directionPush * controller.forcePushDrop, ForceMode2D.Impulse);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

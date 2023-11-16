@@ -268,9 +268,12 @@ GameObject:
   - component: {fileID: 2209351473125388942}
   - component: {fileID: 2209351473125388940}
   - component: {fileID: 2209351473125388931}
+  - component: {fileID: 9008715613900803365}
   - component: {fileID: 876365749}
   - component: {fileID: 876365761}
   - component: {fileID: 876365762}
+  - component: {fileID: 2209351473062704894}
+  - component: {fileID: 2421483815753124501}
   m_Layer: 7
   m_Name: toad
   m_TagString: hero
@@ -294,7 +297,7 @@ Transform:
   - {fileID: 1813403349}
   - {fileID: 1390615126}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2209351473125388936
 SpriteRenderer:
@@ -436,24 +439,41 @@ MonoBehaviour:
   damage: 5
   timeStartAttack: 0
   timeInStun: 0
-  stunAfterAttack: 1
+  stunAfterAttack: 0.8
   attackObject: {fileID: 2209351473740419962}
   attackRange: 0
   layerEnemy:
     serializedVersion: 2
     m_Bits: 64
+  layerNumber: 0
   enemies: []
   isBlock: 0
   isStun: 0
   isAttack: 0
+  isDead: 0
+  useAbility: 0
   rb: {fileID: 0}
   speedMove: 0
   speedJump: 0
   forcePush: 0
   animator: {fileID: 2209351473125388940}
+  abilities: {fileID: 9008715613900803365}
   _hit: {fileID: 1390615128}
-  coolDownAbility: 1
-  toxicPuddle: {fileID: 876365761}
+--- !u!114 &9008715613900803365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2209351473125388937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a585960f0b22d104ab3af8b639001e0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  firstAbility: {fileID: 876365761}
+  secondAbility: {fileID: 2209351473062704894}
+  ultimate: {fileID: 0}
 --- !u!114 &876365749
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -480,11 +500,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   manapool: 10
   character: {fileID: 2209351473125388931}
+  cooldown: 1
+  isActive: 0
+  distanceUse: 4
   prefToxicDrop: {fileID: 4278895210771002241, guid: 65091f944b014424dbe4d627a7939629, type: 3}
-  distance: 4
   timePuddle: 5
   damage: 5
   freqDamage: 1
+  forcePushDrop: 15
 --- !u!114 &876365762
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -498,6 +521,47 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   input: {fileID: 11400000, guid: a705b7a9abcb5e0468200d14e387369c, type: 2}
+--- !u!114 &2209351473062704894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2209351473125388937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2bb2dc89590ce941bacb8fc8df40997, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  manapool: 5
+  character: {fileID: 2209351473125388931}
+  cooldown: 3
+  isActive: 0
+  distanceUse: 5
+  prefabLasso: {fileID: 2420602146112629875, guid: a844386a479462d4385d1f88ee3a4bc7, type: 3}
+  speedLasso: 0.1
+  longitudeLasso: 6
+  timeStunEnemyAfterAttraction: 0.2
+--- !u!114 &2421483815753124501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2209351473125388937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d93f2b869ee6b0459a3a9a17450ac8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  manapool: 0
+  character: {fileID: 0}
+  cooldown: 2
+  isActive: 0
+  distanceUse: 0
+  prefabBubble: {fileID: 0}
+  damage: 2
+  timeBubble: 10
 --- !u!1 &2209351473740419962
 GameObject:
   m_ObjectHideFlags: 0

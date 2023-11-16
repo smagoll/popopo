@@ -7,7 +7,6 @@ public class CharacterStateMachine : MonoBehaviour
     public CharacterWalkState walkState;
     public CharacterIdleState idleState;
     public CharacterAttackState attackState;
-    public CharacterAdittionalAttackState adittionalAttackState;
     public CharacterJumpState jumpState;
     public CharacterBlockState blockState;
     public CharacterDuckState duckState;
@@ -23,7 +22,6 @@ public class CharacterStateMachine : MonoBehaviour
         walkState = new(character);
         idleState = new(character);
         attackState = new(character);
-        adittionalAttackState = new(character);
         jumpState = new(character);
         blockState = new(character);
         duckState = new(character);
@@ -40,6 +38,11 @@ public class CharacterStateMachine : MonoBehaviour
 
     private void Update()
     {
+        if (character.isDead || character.isStun || character.useAbility)
+        {
+            return;
+        }
+
         currentState.InputUpdate(this);
         currentState.FrameUpdate(this);
     }

@@ -18,13 +18,16 @@ public class Puddle : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == layerNumber && Time.time - lastTimeTakeDamage > controller.freqDamage)
+        if (collision.gameObject.layer == layerNumber && collision.CompareTag("hero"))
         {
-            var enemy = collision.GetComponent<Character>();
-            if (enemy != null)
+            if (Time.time - lastTimeTakeDamage > controller.freqDamage)
             {
-                enemy.TakeDamage(controller.damage);
-                lastTimeTakeDamage = Time.time;
+                var enemy = collision.GetComponent<Character>();
+                if (enemy != null)
+                {
+                    enemy.TakeDamage(controller.damage);
+                    lastTimeTakeDamage = Time.time;
+                }
             }
         }
     }
@@ -32,7 +35,7 @@ public class Puddle : MonoBehaviour
     private IEnumerator DestroyAfterTime(float time)
     {
         yield return new WaitForSeconds(time);
+        controller.isActive = false;
         Destroy(gameObject);
-        Debug.Log("destroy");
     }
 }
