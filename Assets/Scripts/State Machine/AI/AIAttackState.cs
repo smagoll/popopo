@@ -6,7 +6,6 @@ public class AIAttackState : AIState
 {
     public bool cooldown = false;
     public int numCombo = 0;
-    public int maxCombo = 3;
     public float lastClickTime = 0;
     private float force = 30f;
     private Vector2 direction;
@@ -45,7 +44,7 @@ public class AIAttackState : AIState
 
     public override void InputUpdate(AIStateMachine aiState)
     {
-        if (Time.time - lastClickTime > character.timeStartAttack && numCombo < maxCombo)
+        if (character.animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.7f && numCombo < character.attackController.maxCombo)
         {
             Attack();
             return;

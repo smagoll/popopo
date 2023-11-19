@@ -18,6 +18,7 @@ public class Character : MonoBehaviour
     public Indicators indicators;
     public Distance distanceStates;
     private Camera _camera;
+    public AttackController attackController;
 
     private void Start()
     {
@@ -26,6 +27,7 @@ public class Character : MonoBehaviour
         SetBars();
         InitIndicators();
         rb = GetComponent<Rigidbody2D>();
+        attackController = GetComponent<AttackController>();
         FlipToEnemy();
     }
 
@@ -89,7 +91,6 @@ public class Character : MonoBehaviour
         timeStartAttack = indicators.TimeStartAttack;
         timeInStun = indicators.TimeInStun;
         stunAfterAttack = indicators.StunAfterAttack;
-        attackRange = indicators.AttackRange;
         speedMove = indicators.SpeedMove;
         speedJump = indicators.SpeedJump;
     }
@@ -109,8 +110,6 @@ public class Character : MonoBehaviour
 
     public GameObject attackObject;
 
-    [SerializeField]
-    private float attackRange;
     public LayerMask layerEnemy;
     public double layerNumber;
     public List<GameObject> enemies;
@@ -213,20 +212,6 @@ public class Character : MonoBehaviour
         }
     }
 
-    public void OnAttack() //атака
-    {
-        Collider2D[] enemies = Physics2D.OverlapCircleAll(attackObject.transform.position, attackRange, layerEnemy);
-        foreach (var enemy in enemies)
-        {
-            if (enemy.CompareTag("hero"))
-            {
-                var charEnemy = enemy.GetComponent<Character>();
-                charEnemy.TakeDamageWithStun(damage);
-                Mp += damage / 3;
-            }
-        }
-    }
-
     private void OnCollisionEnter2D(Collision2D collision) // проверка земли под ногами
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
@@ -242,42 +227,11 @@ public class Character : MonoBehaviour
         rb.bodyType = RigidbodyType2D.Static;
     }
 
-    public void TakeDamageWithStun(float damage) // получение урона
-    {
-        if (isBlock)
-        {
-            Hp -= damage / 3;
-            Mp += damage / 2;
-        }
-        else
-        {
-            animator.SetTrigger("damage");
-            _hit.SendEvent("OnHit");
-            Hp -= damage;
-            Mp += damage / 2;
-        }
-    }
-    
     public void TakeDamage(float damage) // получение урона
     {
         Hp -= damage;
         Mp += damage / 2;
         _hit.SendEvent("OnHit");
-    }
-
-    public void OnAttackWithPush()
-    {
-        Collider2D[] enemies = Physics2D.OverlapCircleAll(attackObject.transform.position, attackRange, layerEnemy);
-        foreach (var enemy in enemies)
-        {
-            if (enemy.CompareTag("hero"))
-            {
-                var charEnemy = enemy.GetComponent<Character>();
-                charEnemy.TakeDamageWithStun(damage);
-                charEnemy.rb.AddForce(GetDirectionToCloseEnemy() * forcePush, ForceMode2D.Impulse);
-                Mp += damage / 3;
-            }
-        }
     }
 
     public void EnterStun()

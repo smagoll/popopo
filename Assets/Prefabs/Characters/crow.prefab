@@ -372,6 +372,7 @@ GameObject:
   - component: {fileID: 1855827966893991585}
   - component: {fileID: 401584031}
   - component: {fileID: 401584032}
+  - component: {fileID: 1855827966893991588}
   m_Layer: 6
   m_Name: crow
   m_TagString: hero
@@ -534,6 +535,7 @@ MonoBehaviour:
   manaBar: {fileID: 0}
   indicators: {fileID: 11400000, guid: 57e42c1f05281f1419c4af2ae1e6cda0, type: 2}
   distanceStates: {fileID: 11400000, guid: e5718fffb1f74ab478be655c47fe233a, type: 2}
+  attackController: {fileID: 0}
   maxHp: 100
   maxMp: 50
   damage: 5
@@ -541,7 +543,6 @@ MonoBehaviour:
   timeInStun: 0
   stunAfterAttack: 0.8
   attackObject: {fileID: 7740896888461126271}
-  attackRange: 0
   layerEnemy:
     serializedVersion: 2
     m_Bits: 128
@@ -557,7 +558,7 @@ MonoBehaviour:
   speedJump: 0
   forcePush: 100
   animator: {fileID: 1855827967259953733}
-  abilities: {fileID: 0}
+  abilities: {fileID: 4019564277902832513}
   _hit: {fileID: 1531929294}
 --- !u!114 &4019564277902832513
 MonoBehaviour:
@@ -571,7 +572,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a585960f0b22d104ab3af8b639001e0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  firstAbility: {fileID: 0}
+  firstAbility: {fileID: 1855827966893991585}
   secondAbility: {fileID: 401584031}
   ultimate: {fileID: 401584032}
 --- !u!114 &707816678
@@ -603,7 +604,7 @@ MonoBehaviour:
   character: {fileID: 3043164546658405356}
   cooldown: 3
   isActive: 0
-  distanceUse: 0
+  distanceUse: 3
   prefCrowcloud: {fileID: 6367248497065364923, guid: e22709774e97d1c43845580dea2b8c47, type: 3}
   speed: 10
   spawnCrowcloud: {fileID: 883750202}
@@ -624,7 +625,8 @@ MonoBehaviour:
   character: {fileID: 3043164546658405356}
   cooldown: 2
   isActive: 0
-  distanceUse: 0
+  distanceUse: 4
+  damage: 0
 --- !u!114 &401584032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -644,6 +646,22 @@ MonoBehaviour:
   distanceUse: 0
   scale: 1.3
   timeInRage: 20
+--- !u!114 &1855827966893991588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1855827967259953730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c35174a82b2adbf45bb270c0655471cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 8
+  maxCombo: 3
+  attackObject: {fileID: 7740896888461126271}
+  attackRange: 0
 --- !u!1 &7740896888461126271
 GameObject:
   m_ObjectHideFlags: 0

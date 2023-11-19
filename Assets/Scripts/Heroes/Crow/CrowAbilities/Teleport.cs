@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using UnityEngine;
+
 public class Teleport : Ability
 {
+    [SerializeField]
+    private float damage;
+
     public override void Action()
     {
         var enemy = character.GetCloseEnemy();
         var directonToEnemy = character.GetDirectionToCloseEnemy();
         transform.position = enemy.transform.position + directonToEnemy;
         character.FlipToEnemy();
-        character.OnAttack();
+        enemy.GetComponent<Character>().TakeDamage(damage);
     }
 
     public override void UseAbility(float distance)

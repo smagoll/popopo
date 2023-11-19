@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class AttackController : MonoBehaviour
 {
+    public float damage;
+    public int maxCombo;
     private Character character;
-    public int numAttack;
-    public IAttack[] attacks;
     public GameObject attackObject;
     public float attackRange;
 
     private void Start()
     {
         character = GetComponent<Character>();
+        attackRange = character.indicators.AttackRange;
     }
 
     public void OnAttack()
@@ -23,7 +24,9 @@ public class AttackController : MonoBehaviour
             if (enemy.CompareTag("hero"))
             {
                 var charEnemy = enemy.GetComponent<Character>();
-                attacks[numAttack].OnAttack(character, charEnemy);
+                charEnemy.TakeDamage(damage);
+                character.Mp += damage / 3;
+                charEnemy.animator.SetTrigger("damage");
             }
         }
     }

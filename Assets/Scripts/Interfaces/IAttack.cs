@@ -3,7 +3,7 @@
 public interface IAttack
 {
     public float Damage { get; set; }
-    public AnimatorOverrideController AnimatorOV { get; set; }
+    public AnimationClip Animation { get; set; }
 
     /// <summary>
     /// Момент нанесения урона.
