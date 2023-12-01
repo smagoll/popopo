@@ -28,6 +28,15 @@ public class UIController : MonoBehaviour
     private Stack<GameObject> prevWindows = new();
     private GameObject currentWindow;
 
+    private GameObject lastSelect;
+
+    private void Awake()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
+        lastSelect = EventSystem.current.firstSelectedGameObject;
+    }
 
     private void Start()
     {
@@ -37,6 +46,8 @@ public class UIController : MonoBehaviour
 
     private void Update()
     {
+        IgnoreMouseClick();
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Back();
@@ -73,6 +84,7 @@ public class UIController : MonoBehaviour
 
     private void Back()
     {
+        
         if (prevWindows.Count == 0)
         {
             ButtonExit();
@@ -104,5 +116,17 @@ public class UIController : MonoBehaviour
         currentWindow = window;
         window.SetActive(true);
         window.GetComponent<Window>().lastButton.GetComponent<Button>().Select();
+    }
+
+    private void IgnoreMouseClick()
+    {
+        if (EventSystem.current.currentSelectedGameObject == null)
+        {
+            EventSystem.current.SetSelectedGameObject(lastSelect);
+        }
+        else
+        {
+            lastSelect = EventSystem.current.currentSelectedGameObject;
+        }
     }
 }

@@ -57,7 +57,7 @@ public class CharacterAttackState : CharacterState
             if (Input.GetKeyDown(characterState.input.attack))
             {
                 isDownAttack = true;
-                if (character.animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.7f && numCombo < character.attackController.maxCombo)
+                if (character.animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.5f && numCombo < character.attackController.maxCombo)
                 {
                     Attack();
                     return;
@@ -77,17 +77,17 @@ public class CharacterAttackState : CharacterState
 
     private void AdAttack()
     {
+        character.animator.SetTrigger("ad_attack");
         character.rb.AddForce(character.GetDirectionToCloseEnemy() * force, ForceMode2D.Impulse);
         numCombo++;
-        character.animator.SetTrigger("ad_attack");
         lastClickTime = Time.time;
     }
     
     private void Attack()
     {
+        character.animator.SetTrigger("attack");
         character.rb.AddForce(character.GetDirectionToCloseEnemy() * force, ForceMode2D.Impulse);
         numCombo++;
-        character.animator.SetTrigger("attack");
         lastClickTime = Time.time;
         isDownAttack = false;
     }

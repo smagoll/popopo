@@ -17,6 +17,7 @@ public class CharacterStateMachine : MonoBehaviour
 
     private void Awake()
     {
+        input = GameManager.input;
         character = gameObject.GetComponent<Character>();
 
         walkState = new(character);

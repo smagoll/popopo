@@ -19,7 +19,10 @@ public class CrowCloud : Ability
 
     public override void UseAbility(float distance)
     {
-        
+        if (distance < distanceUse && isActive == false)
+        {
+            Launch();
+        }
     }
 }
 

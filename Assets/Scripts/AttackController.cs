@@ -24,9 +24,17 @@ public class AttackController : MonoBehaviour
             if (enemy.CompareTag("hero"))
             {
                 var charEnemy = enemy.GetComponent<Character>();
-                charEnemy.TakeDamage(damage);
-                character.Mp += damage / 3;
-                charEnemy.animator.SetTrigger("damage");
+                if (charEnemy.isBlock)
+                {
+                    charEnemy.TakeDamage(damage / 2);
+                    character.Mp += damage / 3;
+                }
+                else
+                {
+                    charEnemy.TakeDamage(damage);
+                    character.Mp += damage / 3;
+                    charEnemy.animator.SetTrigger("damage");
+                }
             }
         }
     }

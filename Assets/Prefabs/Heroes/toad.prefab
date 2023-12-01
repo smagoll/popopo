@@ -154,7 +154,7 @@ GameObject:
   - component: {fileID: 1813403349}
   - component: {fileID: 1813403351}
   - component: {fileID: 1813403350}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Center
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -270,12 +270,10 @@ GameObject:
   - component: {fileID: 2209351473125388931}
   - component: {fileID: 3414335120480643430}
   - component: {fileID: 9008715613900803365}
-  - component: {fileID: 876365749}
   - component: {fileID: 876365761}
-  - component: {fileID: 876365762}
   - component: {fileID: 2209351473062704894}
   - component: {fileID: 2421483815753124501}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: toad
   m_TagString: hero
   m_Icon: {fileID: 0}
@@ -298,7 +296,7 @@ Transform:
   - {fileID: 1813403349}
   - {fileID: 1390615126}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2209351473125388936
 SpriteRenderer:
@@ -441,11 +439,11 @@ MonoBehaviour:
   damage: 5
   timeStartAttack: 0
   timeInStun: 0
-  stunAfterAttack: 0.8
+  stunAfterAttack: 0.7
   attackObject: {fileID: 2209351473740419962}
   layerEnemy:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 0
   layerNumber: 0
   enemies: []
   isBlock: 0
@@ -456,7 +454,7 @@ MonoBehaviour:
   rb: {fileID: 0}
   speedMove: 0
   speedJump: 0
-  forcePush: 0
+  forcePush: 100
   animator: {fileID: 2209351473125388940}
   abilities: {fileID: 9008715613900803365}
   _hit: {fileID: 1390615128}
@@ -491,18 +489,6 @@ MonoBehaviour:
   firstAbility: {fileID: 876365761}
   secondAbility: {fileID: 2209351473062704894}
   ultimate: {fileID: 2421483815753124501}
---- !u!114 &876365749
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2209351473125388937}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c510e1b58d2d15c4b826d7e0c6eb8792, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &876365761
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -525,19 +511,6 @@ MonoBehaviour:
   damage: 5
   freqDamage: 1
   forcePushDrop: 15
---- !u!114 &876365762
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2209351473125388937}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b83be0de16e6b64b8282f989af7e792, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  input: {fileID: 11400000, guid: a705b7a9abcb5e0468200d14e387369c, type: 2}
 --- !u!114 &2209351473062704894
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -571,7 +544,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d93f2b869ee6b0459a3a9a17450ac8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manapool: 0
+  manapool: 50
   character: {fileID: 2209351473125388931}
   cooldown: 2
   isActive: 0

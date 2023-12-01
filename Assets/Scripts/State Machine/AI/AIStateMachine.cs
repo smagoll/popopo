@@ -37,7 +37,7 @@ public class AIStateMachine : MonoBehaviour
 
     private void Update()
     {
-        if (character.isDead || character.isStun || character.useAbility)
+        if (character.isDead || character.useAbility)
         {
             return;
         }

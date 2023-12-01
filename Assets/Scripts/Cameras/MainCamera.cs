@@ -27,6 +27,11 @@ public class MainCamera : MonoBehaviour
 
     void Update()
     {
+        if (heroes == null || heroes.Length == 0)
+        {
+            heroes = GameObject.FindGameObjectsWithTag("hero");
+            return;
+        }
         FollowPosition();
         FollowSize();
     }

@@ -38,7 +38,7 @@ public class AISkillState : AIState
 
         if (character.Mp == character.maxMp)
         {
-            aiState.SwitchState(aiState.idleState);
+            aiState.SwitchState(aiState.walkState);
             return;
         }
     }

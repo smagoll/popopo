@@ -9,13 +9,12 @@ public class CharacterSkillState : CharacterState
 
     public override void EnterState(CharacterStateMachine characterState)
     {
-        character.animator.SetTrigger("skill");
-        Debug.Log("skill");
+        character.animator.SetBool("skill", true);
     }
 
     public override void ExitState(CharacterStateMachine characterState)
     {
-        character.animator.SetTrigger("skill");
+        character.animator.SetBool("skill", false);
     }
 
     public override void FrameUpdate(CharacterStateMachine characterState)

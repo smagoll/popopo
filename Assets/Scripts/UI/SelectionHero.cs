@@ -1,7 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
+using Assets.Scripts.UI;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -10,42 +10,75 @@ public class SelectionHero : MonoBehaviour
     [SerializeField]
     private EventSystem eventSystem;
     [SerializeField]
-    private Image imageHero;
+    private Image imageHeroLeft;
     [SerializeField]
-    private TextMeshProUGUI nameHero;
+    private TextMeshProUGUI nameHeroLeft;
+    [SerializeField]
+    private Image imageHeroRight;
+    [SerializeField]
+    private TextMeshProUGUI nameHeroRight;
 
-    private GameObject currentSelectedHero;
+    public Hero heroSelectedLeft; // выбранный герой с левой стороны
+    public Hero heroSelectedRight; // выбранный герой с правой стороны
+    public SelectState currentState;
+    public LeftSelectState leftSelectState;
+    public RightSelectState rightSelectState;
+
+    public GameObject currentSelectedCell; // текущий выделенна€ €чейка
+
+    private void Start()
+    {
+        currentSelectedCell = eventSystem.firstSelectedGameObject;
+
+        leftSelectState = new(this, imageHeroLeft, nameHeroLeft);
+        rightSelectState = new(this, imageHeroRight, nameHeroRight);
+
+        currentState = leftSelectState;
+    }
 
     private void Update()
     {
         if (gameObject.activeSelf)
         {
-            if (currentSelectedHero == eventSystem.currentSelectedGameObject)
+            if (currentSelectedCell == eventSystem.currentSelectedGameObject || eventSystem.currentSelectedGameObject == null)
             {
                 return;
             }
 
-            currentSelectedHero = eventSystem.currentSelectedGameObject;
-            SetImage(currentSelectedHero);
-            SetName(currentSelectedHero);
+            currentSelectedCell = eventSystem.currentSelectedGameObject;
+            var hero = currentSelectedCell.GetComponent<CellHero>();
+            currentState.SetImage(hero.heroInfo);
+            currentState.SetName(hero.heroInfo);
         }
-    }
-
-    private void SetImage(GameObject heroCell)
-    {
-        var hero = heroCell.GetComponent<CellHero>();
-        imageHero.sprite = hero.Sprite;
-        imageHero.preserveAspect = true;
-    }
-
-    private void SetName(GameObject heroCell)
-    {
-        var hero = heroCell.GetComponent<CellHero>();
-        nameHero.text = hero.Name;
     }
 
     public void SelectHero()
     {
-        Debug.Log(currentSelectedHero.name);
+        currentState.SelectHero();
+    }
+
+    public void SwitchState(SelectState selectState)
+    {
+        currentState = selectState;
+    }
+
+    private void OnDisable()
+    {
+        if (gameObject.activeSelf == false)
+        {
+            heroSelectedLeft = null;
+            heroSelectedRight = null;
+            currentState = leftSelectState;
+            currentSelectedCell = null;
+            imageHeroLeft.color = Color.clear;
+            imageHeroRight.color = Color.clear;
+        }
+    }
+
+    public void StartGame()
+    {
+        GameManager.heroPlayer1 = heroSelectedLeft;
+        GameManager.heroPlayer2 = heroSelectedRight;
+        SceneManager.LoadScene("Battle", LoadSceneMode.Single);
     }
 }

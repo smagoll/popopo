@@ -9,13 +9,13 @@ public class CharacterBlockState : CharacterState
 
     public override void EnterState(CharacterStateMachine characterState)
     {
-        character.animator.SetTrigger("block");
+        character.animator.SetBool("block", true);
         character.isBlock = true;
     }
 
     public override void ExitState(CharacterStateMachine characterState)
     {
-        character.animator.SetTrigger("block");
+        character.animator.SetBool("block", false);
         character.isBlock = false;
     }
 

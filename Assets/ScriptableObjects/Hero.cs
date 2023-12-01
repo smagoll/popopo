@@ -7,4 +7,5 @@ public class Hero : ScriptableObject
 {
     public string Name;
     public Sprite icon;
+    public GameObject prefab;
 }

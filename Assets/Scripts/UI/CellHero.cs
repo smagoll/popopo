@@ -12,10 +12,13 @@ public class CellHero : MonoBehaviour
     private string _name;
     private Sprite _icon;
     private Sprite _sprite;
+    private GameObject _prefabHero;
+    public bool isSelected;
 
     public string Name { get => _name; }
     public Sprite Icon { get => _icon; }
     public Sprite Sprite { get => _sprite; }
+    public GameObject PrefabHero { get => _prefabHero; }
 
     private void Start()
     {

@@ -8,10 +8,8 @@ public class Character : MonoBehaviour
 {
     #region UI
 
-    [SerializeField]
-    private HealthBar healthBar;
-    [SerializeField]
-    private ManaBar manaBar;
+    public HealthBar healthBar;
+    public ManaBar manaBar;
 
     #endregion
 
@@ -132,8 +130,7 @@ public class Character : MonoBehaviour
     
     public Animator animator;
     public Abilities abilities;
-    [SerializeField]
-    private VisualEffect _hit;
+    public VisualEffect _hit;
 
     public Vector3 GetDirectionToCloseEnemy()
     {
@@ -225,6 +222,7 @@ public class Character : MonoBehaviour
         gameObject.GetComponent<BoxCollider2D>().enabled = false;
         enabled = false;
         rb.bodyType = RigidbodyType2D.Static;
+        GlobalEventManager.Start_EndGame();
     }
 
     public void TakeDamage(float damage) // получение урона
